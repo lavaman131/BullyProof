@@ -15,8 +15,7 @@ chrome.runtime.onMessage.addListener(function (msg, sender, sendResponse) {
                         sendResponse(true);
                         return;
                     }
-                }                
-
+                }                   
             } else {
                 sendResponse(false);
             } 
@@ -30,13 +29,14 @@ chrome.runtime.onMessage.addListener(function (msg, sender, sendResponse) {
 let queryHistoryMap = new Map();
 
 //for future usage of query API (retrive history map + new sentient score)
+
 async function query(text) {
 
     if (queryHistoryMap.has(text)) return queryHistoryMap.get(text);
 
     /*random score, need API score embedded */
     return {
-        score: Math.random(),
+        score: 0.8,// Math.random(),
         error: false
     }; 
 }
