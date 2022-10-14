@@ -15,11 +15,19 @@
     "background": {
         "service_worker": "background.js"
     },
+    "permissions": [
+        "storage"
+    ],
     "content_scripts": [
         {
-            "js": ["scripts/content.js"],
+            "js": [
+                "scripts/content.js"
+            ],
             "matches": [
                 "https://twitter.com/*"
+            ],
+            "css": [
+                "css/content.css"
             ]
         }
     ]
