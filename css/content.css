@@ -3,6 +3,10 @@ article[role="article"][data-testid="tweet"] {
 }
 
 
+article[role="article"][data-testid="tweet"]:not(.bullyproof-handled *) {
+    animation: tweet-show 1s;
+}
+
 @keyframes tweet-show {
     0% {
         opacity: 0.05;
@@ -37,6 +41,7 @@ article[role="article"][data-testid="tweet"] {
     align-items: center;
 }
 /* unfold/unfold bottom */
+
 .bullyproof-slide-button {
     width: 20px;
     height: 20px;
@@ -60,7 +65,7 @@ article[role="article"][data-testid="tweet"] {
 /* when tweets is unfold -> the fold buttom facing upward */
 .bullyproof-slide-button.bullyproof-slide-button-up {
     transform: rotate(180deg);
-} 
+}
 
 
 .bullyproof-bar-status {
