@@ -1,12 +1,79 @@
 <html>
-    <head>
-        <link rel="stylesheet" href="/css/main.css">
-    </head>
-    <body class="flex flex-col items-center gap-4 bg-blue-200 w-72 h-24">
+<head>
+    <meta charset="utf-8" />
+    <link rel="stylesheet" href="/css/main.css">
+    <style>
+        body {
+            width: 30em;
+        }
+
+        main {
+            margin-top: 1em;
+        }
+
+        #toggle-button {
+            height: 3em;
+            /* transition: background-color .3s; */
+        }
+
+        #toggle-button::after {
+            content: attr(data-status);
+            margin-left: 1em;
+        }
+
+        #toggle-button {
+            background-color: #777;
+        }
+
+        #toggle-button:hover:not(:active) {
+            background-color: #888;
+        }
+
+        #toggle-button.active {
+            background-color: rgb(59 130 246);
+        }
+
+        #toggle-button.active:hover:not(:active) {
+            background-color: rgb(88, 149, 247);
+        }
+
+        #content {
+            width: 100%;
+            background: white;
+            padding: 1em;
+        }
+
+        #keywords-input {
+            margin-top: 1em;
+            width: 100%;
+            font-size: inherit;
+            border: 1px solid black;
+            padding: 3px;
+            min-height: 6em;
+        }
+
+        #save-keywords-button {
+            padding: 5px 30px;
+            margin-top: 1em;
+        }
+    </style>
+</head>
+<body class="bg-blue-100">
+    <main class="flex flex-col items-center gap-4">
         <h1 class="text-3xl text-center font-bold">
             BullyProof &#128274
         </h1>
-        <button class="bg-aquaBlue hover:bg-blue-500 text-white font-bold text-sm box-content rounded-full w-5/6 h-1/3">Filter Negative Comments</button>
-        <script src="popup.js"></script>
-    </body>
+        <button id="toggle-button" class="text-white font-bold text-sm box-content rounded-full w-5/6"
+            data-status="">Filter Negative Comments</button>
+
+        <div id="content">
+            <h2 class="text-xl font-bold">Speicfic Neagtive Keywords (one/line)</h2>
+            <textarea id="keywords-input"></textarea>
+            <button id="save-keywords-button"
+                class="bg-aquaBlue hover:bg-blue-500 active:bg-blue-600 placeholder-gray-400 text-white font-bold  box-content rounded-full p-1">
+        Save</button>
+        </div>
+    </main>
+    <script src="popup.js"></script>
+</body>
 </html>
