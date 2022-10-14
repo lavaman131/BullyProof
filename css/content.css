@@ -1,0 +1,68 @@
+article[role="article"][data-testid="tweet"] {
+    transition: height .3s, opacity .3s;
+}
+
+
+@keyframes tweet-show {
+    0% {
+        opacity: 0.05;
+    }
+
+    70% {
+        opacity: 0.1;
+    }
+
+    100% {
+        opacity: 1;
+    }
+}
+
+.bullyproof-negative article[role="article"][data-testid="tweet"] {
+    opacity: 0;
+}
+
+
+.bullyproof-tweet-status-bar {
+    width: 100%;
+    box-sizing: border-box;
+    padding: 3px 16px;
+    padding-right: 12px;
+    /* line-height: 20px; */
+    font-size: 14px;
+    color: rgb(83, 100, 113);
+
+
+    display: flex;
+    flex-direction: row;
+    align-items: center;
+}
+/* unfold/unfold bottom */
+.bullyproof-slide-button {
+    width: 20px;
+    height: 20px;
+    text-align: center;
+    border-radius: 100px;
+    padding: 3px;
+    cursor: pointer;
+    transition: transform .5s;
+}
+
+.bullyproof-slide-button:hover {
+    background-color: rgba(29, 155, 240, 0.1);
+    color: rgb(29, 155, 240);
+}
+
+.bullyproof-slide-button:active {
+    background-color: rgba(29, 155, 240, 0.2);
+    color: rgb(29, 155, 240);
+}
+
+/* when tweets is unfold -> the fold buttom facing upward */
+.bullyproof-slide-button.bullyproof-slide-button-up {
+    transform: rotate(180deg);
+} 
+
+
+.bullyproof-bar-status {
+    transition: opacity .3s;
+}
