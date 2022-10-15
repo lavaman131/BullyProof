@@ -6,7 +6,6 @@ const Selectors = {
 //const for explanation of folded tweet
 const HiddenHint = "One tweet has been hidden by BullyProof.";
 
-
 class TweetManager {
     ele;
     isNegative = false;
@@ -141,9 +140,6 @@ function watchBodyChange(onchange) {
     });
 
 }
-
-//additional function for storrage 
-/*
 function html(n, ...args) {
     let re = [];
     for (let i = 0; i < n.length; i++) {
@@ -151,4 +147,4 @@ function html(n, ...args) {
         args[i] && re.push(args[i]);
     }
     return re.join("");
-} */
+} 
