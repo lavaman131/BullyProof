@@ -1,6 +1,7 @@
 import {keywords} from "../data/negative-words.js";
 
 let toggleButton = document.querySelector("#toggle-button");
+let settingsButton = document.querySelector("#settings-button");
 // let keywordsInput = document.querySelector("#keywords-input");
 // let saveKeywordsButton = document.querySelector("#save-keywords-button");
 
@@ -31,6 +32,14 @@ toggleButton.addEventListener("click", () => {
     });
     setStatusUI();
 });
+
+settingsButton.addEventListener("click", () => {
+    if (chrome.runtime.openOptionsPage) {
+        chrome.runtime.openOptionsPage();
+    } else {
+        window.open(chrome.runtime.getURL("options/options.html"));
+    }
+  });
   
 // saveKeywordsButton.addEventListener("click", () => {
 //     let keywords = keywordsInput.value.split("\n").map(s => s.trim()).filter(s => s);
