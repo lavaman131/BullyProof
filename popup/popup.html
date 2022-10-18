@@ -3,80 +3,22 @@
 <head>
     <meta charset="utf-8" />
     <link rel="stylesheet" href="/css/main.css">
-    <style>
-        body {
-            width: 30em;
-        }
-
-        main {
-            margin-top: 1em;
-        }
-
-        #toggle-button {
-            height: 3em;
-            /* transition: background-color .3s; */
-        }
-
-        #toggle-button::after {
-            content: attr(data-status);
-            margin-left: 1em;
-        }
-
-        #toggle-button {
-            background-color: #777;
-        }
-
-        #toggle-button:hover:not(:active) {
-            background-color: #888;
-        }
-
-        #toggle-button.active {
-            background-color: rgb(59 130 246);
-        }
-
-        #toggle-button.active:hover:not(:active) {
-            background-color: rgb(88, 149, 247);
-        }
-
-        #content {
-            width: 100%;
-            background: white;
-            padding: 1em;
-        }
-
-        #keywords-input {
-            margin-top: 1em;
-            width: 100%;
-            font-size: inherit;
-            border: 1px solid black;
-            padding: 3px;
-            min-height: 6em;
-        }
-
-        #save-keywords-button {
-            padding: 5px 30px;
-            margin-top: 1em;
-        }
-    </style>
 </head>
 
-<body class="bg-blue-100">
-    <main class="flex flex-col items-center gap-4">
-        <h1 class="text-3xl text-center font-bold">
-            BullyProof &#128274
-        </h1>
-        <button id="toggle-button" class="text-white font-bold text-sm box-content rounded-full w-5/6"
-            data-status="">Filter Negative Comments</button>
-
-        <div id="content">
-            <h2 class="text-xl font-bold">Negative Keywords 1/line</h2>
-            <textarea id="keywords-input"></textarea>
-            <button id="save-keywords-button"
-                class="bg-aquaBlue hover:bg-blue-500 active:bg-blue-600 placeholder-gray-400 text-white font-bold  box-content rounded-full p-1">Save
-                </button>
+<body class="bg-gradient-to-r from-cyan-500 to-blue-500 w-44 h-48">
+    <main>
+        <div class="grid h-screen place-items-center">
+            <button id="toggle-button">
+                <img class="h-24 w-24 hover:scale-105"></img>
+            </button>
+        </div>
+        <div class="absolute bottom-0 right-0">
+            <button id="toggle-button">
+                <img src="/images/settings.svg" class="h-7 w-7 m-2 hover:-rotate-90 hover:scale-110"></img>
+            </button>
         </div>
     </main>
-    <script src="popup.js"></script>
+    <script type="module" src="popup.js"></script>
 </body>
 
 </html>
