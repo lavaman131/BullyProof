@@ -1,7 +1,7 @@
 {
   "scripts": {
-    "build": "tailwindcss -i ./popup/popup.css -o ./css/main.css",
-    "watch": "tailwindcss -i ./popup/popup.css -o ./css/main.css --watch"
+    "build": "tailwindcss -i ./css/input.css -o ./css/output.css",
+    "watch": "tailwindcss -i ./css/input.css -o ./css/output.css --watch"
   },
   "devDependencies": {
     "tailwindcss": "^3.1.8"

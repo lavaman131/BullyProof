@@ -28,7 +28,7 @@
                 "https://twitter.com/*"
             ],
             "css": [
-                "css/content.css"
+                "css/output.css"
             ]
         }
     ]

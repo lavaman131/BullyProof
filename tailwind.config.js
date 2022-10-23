@@ -1,6 +1,9 @@
 /** @type {import('tailwindcss').Config} */
 module.exports = {
-  content: ["./popup/*.{html, js}"],
+  content: [
+    "./popup/*.{html, js}",
+    "./options/*.{html, js}"
+  ],
   theme: {
     screens: {
       sm: "480px",
@@ -13,8 +16,6 @@ module.exports = {
         aquaBlue: "rgb(77, 159, 235)",
         midnightBlue: "rgb(17, 23, 41)"
       },
-      fontFamily: {
-      }
     },
   },
   plugins: [],
