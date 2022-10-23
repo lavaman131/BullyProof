@@ -1,22 +1,69 @@
 <html>
+
 <head>
     <meta charset="utf-8" />
     <link rel="stylesheet" href="/css/output.css">
 </head>
 
 <body class="bg-slate-800">
-    <main>
+    <main class="mx-3 ">
         <nav class="flex flex-wrap items-center justify-between py-4 bg-slate-800 relative">
-            <div class="container-fluid w-full flex flex-wrap items-center justify-between px-6">
+            <div class="container-fluid w-full flex flex-wrap items-center justify-center">
                 <div class="container-fluid">
-                    <a class="flex items-center gap-4">
+                    <div class="flex items-center gap-4">
                         <img src="/images/settings.svg" class="h-8"></img>
-                        <span class="text-4xl select-none font-bold text-transparent bg-clip-text bg-gradient-to-br from-cyan-500 to-blue-500">Settings</span>
-                    <a>  
+                        <p
+                            class="text-[32px] select-none font-bold text-transparent bg-clip-text bg-gradient-to-br from-cyan-500 to-blue-500">
+                            Settings</p>
+                    </div>
                 </div>
+                <div>
+        </nav>
+        <div class="flex flex-row justify-center gap-4">
+            <div class='text-center' id="content">
+                <h2 class="text-xl font-bold text-white">Negative Keywords 1 per line</h2>
+                <textarea class='my-5 rounded-lg h-[200px]' row="50" cols="50" id="keywords-input"></textarea>
+                <br>
+                <button id="save-keywords-button"
+                    class="text-xl bg-aquaBlue hover:bg-blue-500 active:bg-blue-600 placeholder-gray-400 text-white font-bold  box-content rounded-full p-4 px-7">Save
+                </button>
+            </div>
             <div>
-        </nav>          
+                <h1 class="text-xl font-bold text-white">Demographics:</h1>
+                <form>
+                    <label class="text-md font-bold text-white" for="ethnicity">Ethnicity</label>
+                    <br>
+                    <select name="ethnicity">
+                        <option>
+                            American Indian or Alaska Native
+                        </option>
+                        <option value="indian">
+                            American Indian or Alaska Native
+                        </option>
+                        <option value="asian">
+                            Asian
+                        </option>
+                        <option value="black">
+                            Black or African American
+                        </option>
+                        <option value="pacif">
+                            Native Hawaiian or Other Pacific Islander
+                        </option>
+                        <option value="white">
+                            White
+                        </option>
+                        <option>
+                            No Response
+                        </option>
+                    </select>
+                </form>                
+            </div>
+
+        </div>
+        </div>
+        </div>
     </main>
     <script type="module" src="options.js"></script>
 </body>
+
 </html>

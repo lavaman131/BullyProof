@@ -5,6 +5,7 @@ const Selectors = {
 
 //const for explanation of folded tweet
 const HiddenHint = "One tweet has been hidden by BullyProof.";
+let blockedOnThisPage = 0
 
 class TweetManager {
     ele;
@@ -110,15 +111,17 @@ class TweetManager {
         });
     }
 }
-
 let handlingTweetEles = new Set();
 watchBodyChange(() => {
     console.log("change");
     for (let ele of document.querySelectorAll(Selectors.tweet)) {
         if (handlingTweetEles.has(ele)) continue;
+        blockedOnThisPage += 1;
         handlingTweetEles.add(ele);
         new TweetManager(ele).start();
     }
+    chrome.storage.local.set({blockedOnThisPage},()=>{});
+    console.log(blockedOnThisPage)
 });
 
 function watchBodyChange(onchange) {
@@ -147,4 +150,4 @@ function html(n, ...args) {
         args[i] && re.push(args[i]);
     }
     return re.join("");
-} 
+}

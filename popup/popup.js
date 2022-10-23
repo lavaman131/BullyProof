@@ -2,10 +2,12 @@ import {keywords} from "../data/negative-words.js";
 
 let toggleButton = document.querySelector("#toggle-button");
 let settingsButton = document.querySelector("#settings-button");
+let blockedCounter = document.querySelector('#blocked-counter')
 // let keywordsInput = document.querySelector("#keywords-input");
 // let saveKeywordsButton = document.querySelector("#save-keywords-button");
 
 let active = false;
+let blockedOnThisPage = 0;
 
 let setStatusUI = () => {
     if (active) {
@@ -13,10 +15,14 @@ let setStatusUI = () => {
     } else {
         document.querySelector('#toggle-button img').src = "/images/OFF_lock.svg";
     }
+    blockedCounter.innerHTML = blockedOnThisPage
+
 };
 
-chrome.storage.local.get(["active", "keywords"], local => {
+chrome.storage.local.get(["active", "keywords","blockedOnThisPage"], local => {
+    local.active
     active = !!local.active;
+    blockedOnThisPage = local.blockedOnThisPage
     setStatusUI();
     // if (local.keywords && local.keywords.length) {
     //     keywordsInput.value = local.keywords.join("\n") + "\n";
