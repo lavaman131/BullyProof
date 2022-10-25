@@ -1,4 +1,4 @@
-const keywords = ["2-faced",
+const default_keywords = ["2-faced",
 "2-faces",
 "abnormal",
 "abolish",
@@ -4782,4 +4782,4 @@ const keywords = ["2-faced",
 "zealously",
 "zombie"]
 
-export {keywords};
+export {default_keywords};

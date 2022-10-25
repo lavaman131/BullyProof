@@ -1,5 +1,3 @@
-import {keywords} from "../data/negative-words.js";
-
 let toggleButton = document.querySelector("#toggle-button");
 let settingsButton = document.querySelector("#settings-button");
 let blockedCounter = document.querySelector('#blocked-counter');
@@ -14,17 +12,13 @@ let setStatusUI = () => {
         document.querySelector('#toggle-button img').src = "/images/OFF_lock.svg";
     }
     blockedCounter.innerHTML = blockedOnThisPage
-
 };
 
-chrome.storage.local.get(["active", "keywords","blockedOnThisPage"], local => {
-    local.active
+chrome.storage.local.get(["active", "blockedOnThisPage"], local => {
     active = !!local.active;
     blockedOnThisPage = local.blockedOnThisPage
     setStatusUI();
 });
-
-chrome.storage.local.set({keywords});
 
 toggleButton.addEventListener("click", () => {
     active = !active;
