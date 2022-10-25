@@ -2,9 +2,7 @@ import {keywords} from "../data/negative-words.js";
 
 let toggleButton = document.querySelector("#toggle-button");
 let settingsButton = document.querySelector("#settings-button");
-let blockedCounter = document.querySelector('#blocked-counter')
-// let keywordsInput = document.querySelector("#keywords-input");
-// let saveKeywordsButton = document.querySelector("#save-keywords-button");
+let blockedCounter = document.querySelector('#blocked-counter');
 
 let active = false;
 let blockedOnThisPage = 0;
@@ -24,9 +22,6 @@ chrome.storage.local.get(["active", "keywords","blockedOnThisPage"], local => {
     active = !!local.active;
     blockedOnThisPage = local.blockedOnThisPage
     setStatusUI();
-    // if (local.keywords && local.keywords.length) {
-    //     keywordsInput.value = local.keywords.join("\n") + "\n";
-    // }
 });
 
 chrome.storage.local.set({keywords});
@@ -46,16 +41,4 @@ settingsButton.addEventListener("click", () => {
         window.open(chrome.runtime.getURL("options/options.html"));
     }
   });
-  
-// saveKeywordsButton.addEventListener("click", () => {
-//     let keywords = keywordsInput.value.split("\n").map(s => s.trim()).filter(s => s);
-//     chrome.storage.local.set({
-//         keywords
-//     }, () => {
-//         saveKeywordsButton.textContent = "Saved";
-//         setTimeout(() => {
-//             saveKeywordsButton.textContent = "Save";
-//         }, 1000);
-//     });
-// });
 
