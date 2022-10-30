@@ -40,8 +40,8 @@ chrome.storage.local.get(["useDefaultKeywords"], local => {
 });
 
 checkedToggle.addEventListener("click", () => {
-    setStatusUI();
     useDefaultKeywords = !useDefaultKeywords;
+    setStatusUI();
     chrome.storage.local.set({useDefaultKeywords});
 });
 
@@ -49,3 +49,5 @@ infoIcon.addEventListener("click", (activeTab) => {
     var newURL = "options/default_keywords.html";
     chrome.tabs.create({ url: newURL });
 });
+
+setStatusUI();

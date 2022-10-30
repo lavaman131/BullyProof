@@ -35,7 +35,7 @@ class TweetManager {
         this.ele.parentNode.classList.add("bullyproof-handled");
         /*if the result is negative:*/
         if (this.isNegative) {
-
+            blockedOnThisPage += 1;
             this.ele.parentNode.classList.add("bullyproof-negative");
 
             let bar = document.createElement("div");
@@ -116,11 +116,10 @@ watchBodyChange(() => {
     console.log("change");
     for (let ele of document.querySelectorAll(Selectors.tweet)) {
         if (handlingTweetEles.has(ele)) continue;
-        blockedOnThisPage += 1;
         handlingTweetEles.add(ele);
         new TweetManager(ele).start();
     }
-    chrome.storage.local.set({blockedOnThisPage},()=>{});
+    chrome.storage.local.set({blockedOnThisPage});
     console.log(blockedOnThisPage)
 });
 

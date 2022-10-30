@@ -13,10 +13,11 @@
         "default_popup": "popup/popup.html"
     },
     "background": {
-        "service_worker": "background.js"
+        "service_worker": "./background.js"
     },
     "permissions": [
-        "storage"
+        "storage",
+        "activeTab"
     ],
     "options_page": "options/options.html",
     "content_scripts": [

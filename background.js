@@ -7,9 +7,10 @@ chrome.runtime.onMessage.addListener(function (msg, sender, sendResponse) {
 
         chrome.storage.local.get(null, function (local) {
             if (local.active) {
-
+                console.error('active and running')
+                const keywords = [...local.keywords_custom,...local.default_keywords]
                 /*detect if the keywords is in the tweet before the sentiment Analysis*/
-                for (let keyword of local.keywords || []) {
+                for (let keyword of keywords || []) {
                     if (msg.text.toLowerCase().includes(keyword.toLowerCase())) {
                         /*RETURN TRUE if contain keywords*/
                         sendResponse(true);
@@ -40,3 +41,10 @@ async function query(text) {
         error: false
     }; 
 }
+
+chrome.runtime.onInstalled.addListener(async () => {
+    chrome.action.setBadgeText({
+        text: "ON",
+    });
+    chrome.action.setBadgeBackgroundColor({ color: [0, 255, 0, 0] }, () => { console.error('changed bg color') })
+});
