@@ -46,7 +46,7 @@ chrome.runtime.onInstalled.addListener(async () => {
     chrome.action.setBadgeText({
         text: "ON",
     });
-    chrome.action.setBadgeBackgroundColor({ color: [0, 255, 0, 0] }, () => { console.error('changed bg color') })
+    chrome.action.setBadgeBackgroundColor({ color: [0, 255, 0, 0] }, () => {  })
 });
 
 
