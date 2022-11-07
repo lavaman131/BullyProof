@@ -1210,9 +1210,9 @@ input[type="range"]::-ms-fill-lower {
   background-color: rgb(51 65 85 / var(--tw-bg-opacity));
 }
 
-.bg-gray-200 {
+.bg-midnightBlue {
   --tw-bg-opacity: 1;
-  background-color: rgb(229 231 235 / var(--tw-bg-opacity));
+  background-color: rgb(43 62 91 / var(--tw-bg-opacity));
 }
 
 .bg-gray-700 {
@@ -1607,24 +1607,14 @@ article[role="article"][data-testid="tweet"]:not(.bullyproof-handled *) {
   box-shadow: var(--tw-ring-offset-shadow), var(--tw-ring-shadow), var(--tw-shadow, 0 0 #0000);
 }
 
-.peer:focus ~ .peer-focus\:ring-green-300 {
+.peer:focus ~ .peer-focus\:ring-green-800 {
   --tw-ring-opacity: 1;
-  --tw-ring-color: rgb(132 225 188 / var(--tw-ring-opacity));
+  --tw-ring-color: rgb(3 84 63 / var(--tw-ring-opacity));
 }
 
 .dark .dark\:border-gray-600 {
   --tw-border-opacity: 1;
   border-color: rgb(75 85 99 / var(--tw-border-opacity));
-}
-
-.dark .dark\:bg-gray-700 {
-  --tw-bg-opacity: 1;
-  background-color: rgb(55 65 81 / var(--tw-bg-opacity));
-}
-
-.dark .peer:focus ~ .dark\:peer-focus\:ring-green-800 {
-  --tw-ring-opacity: 1;
-  --tw-ring-color: rgb(3 84 63 / var(--tw-ring-opacity));
 }
 
 @media (min-width: 480px) {

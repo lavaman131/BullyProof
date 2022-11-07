@@ -11,7 +11,7 @@ module.exports = {
     extend: {
       colors: {
         aquaBlue: "rgb(77, 159, 235)",
-        midnightBlue: "rgb(17, 23, 41)",
+        midnightBlue: "#2B3E5B",
       },
       spacing: {
         128: "32rem",
