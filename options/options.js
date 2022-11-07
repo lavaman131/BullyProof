@@ -1,10 +1,12 @@
 import {default_keywords} from "../data/negative-words.js";
-
+import { asianKw, jewishKw, muslimKw, whiteKw, blackKw, lgbtqKw, latinxKw } from '../data/race-keywords.js'
 const saveKeywordsButton = document.getElementById('save-keywords-button')
 const keywordsInput = document.querySelector("#keywords-input");
 const checkedToggle = document.getElementById("checked-toggle")
 let infoIcon = document.getElementById('infoIcon')
 let useDefaultKeywords = true;
+
+
 
 saveKeywordsButton.addEventListener("click", () => {
     let keywords_custom = keywordsInput.value.split("\n").map(s => s.trim()).filter(s => s);
@@ -51,3 +53,33 @@ infoIcon.addEventListener("click", (activeTab) => {
 });
 
 setStatusUI();
+
+const raceKeywords = {
+    'asian':asianKw,
+    'white':whiteKw,
+    'black':blackKw,
+    'latinx':latinxKw,
+    'jewish':jewishKw,
+    'lgbtq':lgbtqKw,
+    'muslim':muslimKw,
+}
+
+const appendNegativeKeywords = (choice) => {
+    let set = {default_keywords:{...raceKeywords[choice]}};
+    if(useDefaultKeywords){
+
+        set = {default_keywords:{...default_keywords,...raceKeywords[choice]}}
+    }
+    chrome.storage.local.set(set);
+    console.log(set)
+}
+
+const options = document.querySelectorAll("#race > option")
+options.forEach(option => {
+    console.log(option.id)
+    if(raceKeywords.hasOwnProperty(option.id)){
+        option.addEventListener('click',()=>{
+            appendNegativeKeywords(option.id)
+        })        
+    }
+})
