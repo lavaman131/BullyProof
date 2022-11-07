@@ -60,7 +60,7 @@
             
             
             <div class="flex flex-row items-center gap-2">
-                <label for="Demographics" class="block text-sm font-medium text-white">Select your demographics
+                <label for="Demographics" class="block text-sm font-medium text-white">Remove Common Racial Remarks
                     <div id="tooltip-right3" role="tooltip" class="inline-block absolute invisible z-10 py-2 px-3 text-sm font-medium text-white rounded-lg shadow-sm opacity-0 transition-opacity duration-300 tooltip bg-gray-700">
                         <p>
                             Include info about your identity to
@@ -71,29 +71,30 @@
                 </label>
                 <button id="infoIcon3" data-tooltip-target="tooltip-right3" data-tooltip-placement="right" type="button" class="mb-0 text-white">&#9432</button>
             </div>
-
-
-            <select name="ethnicity" Demographics" class="sm:w-96 md:w-128 lg:w-128 xl:w-144 border text-sm rounded-lg block p-2.5 bg-gray-700 border-gray-600 placeholder-gray-400 text-white focus:ring-aquaBlue focus:border-aquaBlue">
-                <option selected>
+            <select id="race" multiple name="ethnicity" class="sm:w-96 md:w-128 lg:w-128 xl:w-144 border text-sm rounded-lg block p-2.5 bg-gray-700 border-gray-600 placeholder-gray-400 text-white focus:ring-aquaBlue focus:border-aquaBlue">
+                <option>
                     No Response
                 </option>
-                <option>
-                    American Indian or Alaska Native
+                <option id="jew">
+                    Jewish
                 </option>
-                <option value="indian">
-                    American Indian or Alaska Native
-                </option>
-                <option value="asian">
+                <option id="asian">
                     Asian
                 </option>
-                <option value="black">
+                <option id="black">
                     Black or African American
                 </option>
-                <option value="pacif">
-                    Native Hawaiian or Other Pacific Islander
-                </option>
-                <option value="white">
+                <option id="white">
                     White
+                </option>
+                <option id="latinx">
+                    Latin-X
+                </option>
+                <option id="lgbtq">
+                    LGBTQ
+                </option>
+                <option id="muslim">
+                    Muslim
                 </option>
             </select>            
         </div>    
