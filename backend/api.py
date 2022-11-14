@@ -1,6 +1,6 @@
 from fastapi import FastAPI
 from pydantic import BaseModel
-from typing import Union, List
+from typing import Union, List, Dict
 from fastapi.middleware.cors import CORSMiddleware
 import joblib
 import utils
@@ -20,13 +20,16 @@ app.add_middleware(
     allow_headers=['*'],
 )
 
-class Text(BaseModel):
-    twitter_text: List[str]
+class Data(BaseModel):
+    data: List[Dict[str, str]]
     
 clf = joblib.load('models/random_forest_clf.pkl') 
 
 @app.post("/predict/")
-async def predict(text: Text):
-    encoded_text = utils.process_data(text.twitter_text)
-    pred = clf.predict(encoded_text).tolist()
-    return {'prediction': pred}
+async def predict(twitter_data: Data):
+    identifier = [k for d in twitter_data.data for k in d.keys()]
+    text = [v for d in twitter_data.data for v in d.values()]
+    encoded_text = utils.process_data(text)
+    preds = clf.predict(encoded_text).tolist()
+    output = [{i: p} for i, p in zip(identifier, preds)]
+    return output
