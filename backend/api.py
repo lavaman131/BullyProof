@@ -20,16 +20,17 @@ app.add_middleware(
     allow_headers=['*'],
 )
 
-class Data(BaseModel):
-    data: List[Dict[str, str]]
+class TwitterData(BaseModel):
+    id: str
+    text: str
     
 clf = joblib.load('models/random_forest_clf.pkl') 
 
 @app.post("/predict/")
-async def predict(twitter_data: Data):
-    identifier = [k for d in twitter_data.data for k in d.keys()]
-    text = [v for d in twitter_data.data for v in d.values()]
+async def predict(twitter_data: List[TwitterData]):
+    identifiers = [t.id for t in twitter_data]
+    text = [t.text for t in twitter_data]
     encoded_text = utils.process_data(text)
     preds = clf.predict(encoded_text).tolist()
-    output = [{i: p} for i, p in zip(identifier, preds)]
+    output = [{'id': i, 'sentiment': p} for i, p in zip(identifiers, preds)]
     return output
