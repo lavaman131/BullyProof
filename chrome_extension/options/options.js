@@ -54,32 +54,32 @@ infoIcon.addEventListener("click", (activeTab) => {
 
 setStatusUI();
 
-const raceKeywords = {
-    'asian':asianKw,
-    'white':whiteKw,
-    'black':blackKw,
-    'latinx':latinxKw,
-    'jewish':jewishKw,
-    'lgbtq':lgbtqKw,
-    'muslim':muslimKw,
-}
+// const raceKeywords = {
+//     'asian':asianKw,
+//     'white':whiteKw,
+//     'black':blackKw,
+//     'latinx':latinxKw,
+//     'jewish':jewishKw,
+//     'lgbtq':lgbtqKw,
+//     'muslim':muslimKw,
+// }
 
-const appendNegativeKeywords = (choice) => {
-    let set = {default_keywords:{...raceKeywords[choice]}};
-    if(useDefaultKeywords){
+// const appendNegativeKeywords = (choice) => {
+//     let set = {default_keywords:{...raceKeywords[choice]}};
+//     if(useDefaultKeywords){
 
-        set = {default_keywords:{...default_keywords,...raceKeywords[choice]}}
-    }
-    chrome.storage.local.set(set);
-    console.log(set)
-}
+//         set = {default_keywords:{...default_keywords,...raceKeywords[choice]}}
+//     }
+//     chrome.storage.local.set(set);
+//     console.log(set)
+// }
 
-const options = document.querySelectorAll("#race > option")
-options.forEach(option => {
-    console.log(option.id)
-    if(raceKeywords.hasOwnProperty(option.id)){
-        option.addEventListener('click',()=>{
-            appendNegativeKeywords(option.id)
-        })        
-    }
-})
+// const options = document.querySelectorAll("#race > option")
+// options.forEach(option => {
+//     console.log(option.id)
+//     if(raceKeywords.hasOwnProperty(option.id)){
+//         option.addEventListener('click',()=>{
+//             appendNegativeKeywords(option.id)
+//         })        
+//     }
+// })
