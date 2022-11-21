@@ -4,4 +4,4 @@ package-lock.json
 **/.ipynb_checkpoints/**
 **/venv/**
 **/__pycache__/**
-**/.env
+**/.env/**

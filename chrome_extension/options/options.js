@@ -1,8 +1,12 @@
 import {default_keywords} from "../data/negative-words.js";
-import { asianKw, jewishKw, muslimKw, whiteKw, blackKw, lgbtqKw, latinxKw } from '../data/race-keywords.js'
+import { axios } from './../node_modules/axios'
+
+const backend = "http://127.0.0.1:8000"
+
 const saveKeywordsButton = document.getElementById('save-keywords-button')
 const keywordsInput = document.querySelector("#keywords-input");
 const checkedToggle = document.getElementById("checked-toggle")
+const loginTwitter = document.getElementById('login-twitter')
 let infoIcon = document.getElementById('infoIcon')
 let useDefaultKeywords = true;
 
@@ -51,9 +55,18 @@ infoIcon.addEventListener("click", (activeTab) => {
     var newURL = "options/default_keywords.html";
     chrome.tabs.create({ url: newURL });
 });
-
+loginTwitter.addEventListener('click',(ev) => {
+    const getUrl = backend + '/api/twitter-url'
+    axios.get(getUrl)
+    .then(res => res.json())
+    .then(data => {
+        console.log(data['data']['twitter_url'])
+        const url = data['data']['twitter_url']
+        chrome.tabs.create({url})
+    })
+})
 setStatusUI();
-
+/*
 const raceKeywords = {
     'asian':asianKw,
     'white':whiteKw,
@@ -83,3 +96,5 @@ options.forEach(option => {
         })        
     }
 })
+
+*/

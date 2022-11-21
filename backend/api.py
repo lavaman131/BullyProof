@@ -66,7 +66,7 @@ http = urllib3.PoolManager()
 
 
 @app.get('/userInfo')
-async def getUserInfo(user_id:int):
+async def getUserInfo(user_id:str):
     res = db.get_user_token(user_id)
 
     if res['status'] == 200:
@@ -100,9 +100,22 @@ async def token(code:str, state: Union[str,None] = None, settings: Settings = De
     client = tweepy.Client(token)
     twitter_user_id = client.get_me(user_auth=False).data['id']
     # replace later with real user_id 
-    user_id = 123
+    user_id = "123"
     db.update_user(user_id, twitter_user_id=twitter_user_id, token=token)
     return generate_html_response()
+
+@app.get('/api/twitter-url')
+def getTwitterURL(settings: Settings = Depends(get_settings)):
+    oauth2_user_handler = tweepy.OAuth2UserHandler(
+    client_id=settings.client_id,
+    redirect_uri=settings.redirect_uri,
+    scope=settings.scope,
+    )
+    return {
+        'data':{
+            'twitter_url':oauth2_user_handler.get_authorization_url()
+        }
+    }
 
 @app.get('/')
 async def root(settings: Settings = Depends(get_settings)):

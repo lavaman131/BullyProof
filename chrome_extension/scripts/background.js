@@ -1,3 +1,4 @@
+import { v4 as uuidv4 } from './../node_modules/uuid'
 /*For future API usage */
 const NegativeScoreLevel = 0.6;
 /* Filter function: */
@@ -46,7 +47,7 @@ chrome.runtime.onInstalled.addListener(async () => {
     chrome.action.setBadgeText({
         text: "ON",
     });
-    chrome.
+    chrome.storage.local.set({user_id:uuidv4()})
     chrome.action.setBadgeBackgroundColor({ color: [0, 255, 0, 0] }, () => {  })
 });
 
