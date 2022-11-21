@@ -1,4 +1,5 @@
 from fastapi import FastAPI, Depends
+from fastapi.responses import HTMLResponse 
 from pydantic import BaseModel
 from typing import Union, List, Dict
 from fastapi.middleware.cors import CORSMiddleware
@@ -8,7 +9,9 @@ import urllib3
 from urllib.parse import urlencode
 from config import Settings
 from functools import lru_cache
+import db
 import json
+import tweepy
 app = FastAPI()
 
 origins = [
@@ -42,11 +45,43 @@ async def predict(twitter_data: List[TwitterData]):
     return output
 
 """
+def generate_html_response():
+    html_content = """
+    <html>
+        <head>
+            <title>BullyProof</title>
+        </head>
+        <body>
+            <h1>Thanks for signing-in! </h1>
+        </body>
+    </html>
+    """
+    return HTMLResponse(content=html_content, status_code=200)
+
 @lru_cache()
 def get_settings():
     return Settings()
 
 http = urllib3.PoolManager()
+
+
+@app.get('/userInfo')
+async def getUserInfo(user_id:int):
+    res = db.get_user_token(user_id)
+
+    if res['status'] == 200:
+        res2 = db.get_user_twitter_user_id(user_id)
+        twitter_user_id = res2['data']['twitter_user_id']
+        token = res['data']['token']
+        client = tweepy.Client(token)
+        data = client.get_users_following(id=twitter_user_id).data
+        return {
+            'data':data,
+            'status':200,
+            'message':'successful info look up'
+        }
+    else:
+        return res
 
 # https://twitter.com/i/oauth2/authorize?response_type=code&client_id=aTBraVVTSHktUmE1ZHVGRXQ0YXo6MTpjaQ&redirect_uri=http://127.0.0.1:8000/api/token&scope=tweet.read%20users.read%20follows.read%20follows.write&state=state&code_challenge=challenge&code_challenge_method=plain
 @app.get('/api/token')
@@ -61,7 +96,13 @@ async def token(code:str, state: Union[str,None] = None, settings: Settings = De
     })
     req = url+queryParams
     r = http.request('POST',req)
-    return json.loads(r.data.decode('utf-8'))
+    token = (json.loads(r.data.decode('utf-8'))['access_token'])
+    client = tweepy.Client(token)
+    twitter_user_id = client.get_me(user_auth=False).data['id']
+    # replace later with real user_id 
+    user_id = 123
+    db.update_user(user_id, twitter_user_id=twitter_user_id, token=token)
+    return generate_html_response()
 
 @app.get('/')
 async def root(settings: Settings = Depends(get_settings)):

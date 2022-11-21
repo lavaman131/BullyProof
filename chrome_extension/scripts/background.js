@@ -46,6 +46,7 @@ chrome.runtime.onInstalled.addListener(async () => {
     chrome.action.setBadgeText({
         text: "ON",
     });
+    chrome.
     chrome.action.setBadgeBackgroundColor({ color: [0, 255, 0, 0] }, () => {  })
 });
 
