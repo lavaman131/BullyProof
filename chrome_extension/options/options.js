@@ -20,11 +20,11 @@ saveKeywordsButton.addEventListener("click", () => {
     });
 });
 
-chrome.storage.local.get(["keywords_custom"], local => {
-    if (local.keywords_custom && local.keywords_custom.length) {
-        keywordsInput.value = local.keywords_custom.join("\n") + "\n";
-    }
-});
+// chrome.storage.local.get(["keywords_custom"], local => {
+//     if (local.keywords_custom && local.keywords_custom.length) {
+//         keywordsInput.value = local.keywords_custom.join("\n") + "\n";
+//     }
+// });
 
 let setStatusUI = () => {
     if (useDefaultKeywords) {
