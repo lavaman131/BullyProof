@@ -16,7 +16,8 @@ app = FastAPI()
 
 origins = [
     "http://localhost:8000",
-    "http://127.0.0.1:8000"
+    "http://127.0.0.1:8000",
+    "*"
 ]
 
 app.add_middleware(
@@ -46,17 +47,8 @@ async def predict(twitter_data: List[TwitterData]):
 
 """
 def generate_html_response():
-    html_content = """
-    <html>
-        <head>
-            <title>BullyProof</title>
-        </head>
-        <body>
-            <h1>Thanks for signing-in! </h1>
-        </body>
-    </html>
-    """
-    return HTMLResponse(content=html_content, status_code=200)
+    file = open('thank-you.html')
+    return HTMLResponse(content=file, status_code=200)
 
 @lru_cache()
 def get_settings():
@@ -74,7 +66,10 @@ async def getUserInfo(user_id:str):
         twitter_user_id = res2['data']['twitter_user_id']
         token = res['data']['token']
         client = tweepy.Client(token)
-        data = client.get_users_following(id=twitter_user_id).data
+        data = client.get_users_following(
+                id=twitter_user_id,
+                user_fields=['profile_image_url']
+        )
         return {
             'data':data,
             'status':200,
@@ -113,7 +108,7 @@ def getTwitterURL(settings: Settings = Depends(get_settings)):
     )
     return {
         'data':{
-            'twitter_url':oauth2_user_handler.get_authorization_url()
+            'twitter_url':'https://twitter.com/i/oauth2/authorize?response_type=code&client_id=aTBraVVTSHktUmE1ZHVGRXQ0YXo6MTpjaQ&redirect_uri=http://127.0.0.1:8000/api/token&scope=tweet.read%20users.read%20follows.read%20follows.write&state=state&code_challenge=challenge&code_challenge_method=plain'
         }
     }
 

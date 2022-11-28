@@ -4,66 +4,85 @@
     <meta charset="utf-8" />
     <link rel="stylesheet" href="/css/output.css"/>
     <script src="../node_modules/flowbite/dist/flowbite.js"></script>
-    <script type="module" src="options.js"></script>
+    <script type="module" src="./../dist/options/options.js" defer></script>
 </head>
 
 <body class="bg-midnightBlue">
     <main class="mx-3">
-        <nav class="flex items-center justify-between py-4 relative">
-            <div class="container-fluid w-full flex items-center">
+        <nav class="relative flex items-center justify-between py-4">
+            <div class="flex items-center w-full container-fluid">
                 <div class="container-fluid">
                     <div class="flex items-center gap-2">
                         <img src="/images/ON_lock.svg" class="w-12 h-12"></img>
                         <p
-                            class="text-4xl select-none font-bold text-transparent bg-clip-text bg-gradient-to-br from-cyan-500 to-blue-500">
+                            class="text-4xl font-bold text-transparent select-none bg-clip-text bg-gradient-to-br from-cyan-500 to-blue-500">
                             BullyProof
                         </p>
                     </div>
                 </div>
             </div>
         </nav>
+	<div>
+	</div>
         <div class="flex flex-col items-center gap-4">
-            <h1 class="select-none text-3xl font-bold text-transparent bg-clip-text bg-gradient-to-br from-cyan-500 to-blue-500">Basic Settings</h1>   
+            <h1 class="text-3xl font-bold text-transparent select-none bg-clip-text bg-gradient-to-br from-cyan-500 to-blue-500">Basic Settings</h1>   
             
                <div class="flex flex-row items-center gap-2">
-                    <label for="checked-toggle" class="inline-flex relative items-center cursor-pointer">
+                    <label for="checked-toggle" class="relative inline-flex items-center cursor-pointer">
                         <input type="checkbox" value="" id="checked-toggle" class="sr-only peer" checked=""></input>
                         <div class="w-11 h-6 rounded-full peer peer-focus:ring-4 peer-focus:ring-green-800 bg-gray-700 peer-checked:after:translate-x-full peer-checked:after:border-white after:content-[''] after:absolute after:top-0.5 after:left-[2px] after:bg-white after:border-gray-300 after:border after:rounded-full after:h-5 after:w-5 after:transition-all dark:border-gray-600 peer-checked:bg-green-600"></div>
                         <span class="ml-3 text-sm font-medium text-white">Enable Default Filters</span>
                     </label>
                     <button id="infoIcon" data-tooltip-target="tooltip-right" data-tooltip-placement="right" type="button" class="mb-0 text-white">&#9432</button>
                </div>
-                <button id='login-twitter' class="text-cyan-100 text-lg font-bold bg-slate-500 p-3 rounded-md border-solid border-white border-2">
+                <button id='login-twitter' class="p-3 text-lg font-bold border-2 border-white border-solid text-cyan-100 bg-slate-500 rounded-md">
                     Login to Twitter
-                    <svg class='fill-cyan-100 inline-block' xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24"><path d="M24 4.557c-.883.392-1.832.656-2.828.775 1.017-.609 1.798-1.574 2.165-2.724-.951.564-2.005.974-3.127 1.195-.897-.957-2.178-1.555-3.594-1.555-3.179 0-5.515 2.966-4.797 6.045-4.091-.205-7.719-2.165-10.148-5.144-1.29 2.213-.669 5.108 1.523 6.574-.806-.026-1.566-.247-2.229-.616-.054 2.281 1.581 4.415 3.949 4.89-.693.188-1.452.232-2.224.084.626 1.956 2.444 3.379 4.6 3.419-2.07 1.623-4.678 2.348-7.29 2.04 2.179 1.397 4.768 2.212 7.548 2.212 9.142 0 14.307-7.721 13.995-14.646.962-.695 1.797-1.562 2.457-2.549z"/></svg>
+                    <svg class='inline-block fill-cyan-100' xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24"><path d="M24 4.557c-.883.392-1.832.656-2.828.775 1.017-.609 1.798-1.574 2.165-2.724-.951.564-2.005.974-3.127 1.195-.897-.957-2.178-1.555-3.594-1.555-3.179 0-5.515 2.966-4.797 6.045-4.091-.205-7.719-2.165-10.148-5.144-1.29 2.213-.669 5.108 1.523 6.574-.806-.026-1.566-.247-2.229-.616-.054 2.281 1.581 4.415 3.949 4.89-.693.188-1.452.232-2.224.084.626 1.956 2.444 3.379 4.6 3.419-2.07 1.623-4.678 2.348-7.29 2.04 2.179 1.397 4.768 2.212 7.548 2.212 9.142 0 14.307-7.721 13.995-14.646.962-.695 1.797-1.562 2.457-2.549z"/></svg>
                 </button> 
-                
-                <div id="tooltip-right" role="tooltip" class="inline-block absolute invisible z-10 py-2 px-3 text-sm font-medium text-white rounded-lg shadow-sm opacity-0 transition-opacity duration-300 tooltip bg-gray-700">
+
+                <div
+                id="account-data"
+                class="flex flex-row gap-4">
+                    <div 
+                    id="blocked-users"
+                    class="w-[250px] items-center bg-slate-400 rounded-lg flex flex-col">
+                    <h1 class="text-white font-bold text-center text-xl mb-3">Blocked Users</h1>
+                    </div>
+
+                    <div 
+                    id="muted-users"
+                    class="w-[300px] bg-slate-400 rounded-lg">
+                    <h1 class="text-white font-bold text-center text-xl mb-3">Muted Users</h1>
+
+                    </div>
+                </div>
+
+                <div id="tooltip-right" role="tooltip" class="absolute z-10 invisible inline-block px-3 py-2 text-sm font-medium text-white bg-gray-700 rounded-lg opacity-0 shadow-sm transition-opacity duration-300 tooltip">
                     Click to see full list of default negative keywords.
                     <div class="tooltip-arrow" data-popper-arrow></div>
                 </div>
             <span class="py-5"></span>
-            <h1 class="select-none text-3xl font-bold text-transparent bg-clip-text bg-gradient-to-br from-cyan-500 to-blue-500">Additional Settings</h1>   
+            <h1 class="text-3xl font-bold text-transparent select-none bg-clip-text bg-gradient-to-br from-cyan-500 to-blue-500">Additional Settings</h1>   
             
             <div class="flex flex-row items-center gap-2">
-                <h1 class="select-none text-xl font-bold text-white">Negative Keywords</h1> 
+                <h1 class="text-xl font-bold text-white select-none">Negative Keywords</h1> 
                 <button id="infoIcon2" data-tooltip-target="tooltip-right2" data-tooltip-placement="right" type="button" class="mb-0 text-white">&#9432</button>
             </div>
         
-            <div id="tooltip-right2" role="tooltip" class="inline-block absolute invisible z-10 py-2 px-3 text-sm font-medium text-white rounded-lg shadow-sm opacity-0 transition-opacity duration-300 tooltip bg-gray-700">
+            <div id="tooltip-right2" role="tooltip" class="absolute z-10 invisible inline-block px-3 py-2 text-sm font-medium text-white bg-gray-700 rounded-lg opacity-0 shadow-sm transition-opacity duration-300 tooltip">
                 Add custom negative keywords.
                 <div class="tooltip-arrow" data-popper-arrow></div>
             </div>       
             
             <textarea id="keywords-input" rows="10" class="resize-none block p-2.5 sm:w-96 md:w-128 lg:w-128 xl:w-144 text-sm rounded-lg border bg-gray-700 border-gray-600 placeholder-gray-400 text-white focus:ring-aquaBlue focus:border-aquaBlue" placeholder="Enter one keyword per line..."></textarea>
             <button id="save-keywords-button"
-                class="text-xl px-5 py-1 rounded-full bg-aquaBlue hover:bg-blue-500 active:bg-blue-600 placeholder-gray-400 text-white font-bold">Save
+                class="px-5 py-1 text-xl font-bold text-white placeholder-gray-400 rounded-full bg-aquaBlue hover:bg-blue-500 active:bg-blue-600">Save
             </button>
             
             
             <div class="flex flex-row items-center gap-2">
                 <label for="Demographics" class="block text-sm font-medium text-white">Remove Common Racial Remarks
-                    <div id="tooltip-right3" role="tooltip" class="inline-block absolute invisible z-10 py-2 px-3 text-sm font-medium text-white rounded-lg shadow-sm opacity-0 transition-opacity duration-300 tooltip bg-gray-700">
+                    <div id="tooltip-right3" role="tooltip" class="absolute z-10 invisible inline-block px-3 py-2 text-sm font-medium text-white bg-gray-700 rounded-lg opacity-0 shadow-sm transition-opacity duration-300 tooltip">
                         <p>
                             Include info about your identity to
                             better filter negative keywords.

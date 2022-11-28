@@ -1,4 +1,16 @@
-import { v4 as uuidv4 } from './../node_modules/uuid'
+import { v4 as uuidv4 } from 'uuid'
+console.error("running in backgroudn")
+chrome.runtime.onInstalled.addListener(() => {
+    console.error('running on runtime')
+    console.error(uuidv4())
+    chrome.action.setBadgeText({
+        text: "ON",
+    });
+    // chrome.storage.local.set({user_id:uuidv4()})
+    chrome.storage.local.set({user_id:123})
+
+    chrome.action.setBadgeBackgroundColor({ color: [0, 255, 0, 0] }, () => {  })
+});
 /*For future API usage */
 const NegativeScoreLevel = 0.6;
 /* Filter function: */
@@ -43,7 +55,9 @@ async function query(text) {
     }; 
 }
 
-chrome.runtime.onInstalled.addListener(async () => {
+
+/*
+chrome.runtime.onInstalled.addListener(() => {
     chrome.action.setBadgeText({
         text: "ON",
     });
@@ -51,7 +65,7 @@ chrome.runtime.onInstalled.addListener(async () => {
     chrome.action.setBadgeBackgroundColor({ color: [0, 255, 0, 0] }, () => {  })
 });
 
-
+*/
 // /*For future API usage */
 // const NegativeScoreLevel = 0.6;
 // /* Filter function: */
