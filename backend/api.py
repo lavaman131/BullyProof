@@ -1,5 +1,6 @@
 from fastapi import FastAPI, Depends
-from fastapi.responses import HTMLResponse 
+from fastapi.responses import HTMLResponse, FileResponse
+from fastapi.staticfiles import StaticFiles
 from pydantic import BaseModel
 from typing import Union, List, Dict
 from fastapi.middleware.cors import CORSMiddleware
@@ -12,6 +13,8 @@ from functools import lru_cache
 import db
 import json
 import tweepy
+from enum import Enum
+
 app = FastAPI()
 
 origins = [
@@ -47,8 +50,19 @@ async def predict(twitter_data: List[TwitterData]):
 
 """
 def generate_html_response():
-    file = open('thank-you.html')
-    return HTMLResponse(content=file, status_code=200)
+    html_content = """
+    <html>
+        <head>
+            <title>BullyProof</title>
+        </head>
+        <body>
+            <h1>Thanks for signing-in! </h1>
+        </body>
+    </html>
+    """
+    file = open('./temp_frontend/thankYou.html')
+    return FileResponse('./temp_frontend/thankYou.html')
+
 
 @lru_cache()
 def get_settings():
@@ -56,9 +70,15 @@ def get_settings():
 
 http = urllib3.PoolManager()
 
+app.mount("/css", StaticFiles(directory="./temp_frontend/css"), name="css")
+app.mount("/images", StaticFiles(directory="./temp_frontend/images"), name="images")
+class UserData(Enum):
+    BLOCKED = 'blocked' 
+    MUTED = 'muted'
+    FOLLOWING = 'following'
 
-@app.get('/userInfo')
-async def getUserInfo(user_id:str):
+@app.get('/userInfo/{mode}')
+async def getUserInfo(user_id:str,mode:UserData):
     res = db.get_user_token(user_id)
 
     if res['status'] == 200:
@@ -66,10 +86,21 @@ async def getUserInfo(user_id:str):
         twitter_user_id = res2['data']['twitter_user_id']
         token = res['data']['token']
         client = tweepy.Client(token)
-        data = client.get_users_following(
-                id=twitter_user_id,
-                user_fields=['profile_image_url']
-        )
+        if(mode == UserData.BLOCKED):
+            data = client.get_users_following(
+                    id=twitter_user_id,
+                    user_fields=['profile_image_url','url']
+            )
+        elif mode == UserData.MUTED:
+            data = client.get_muted(
+                    user_auth=False,
+                    user_fields=['profile_image_url','url']
+            )
+        elif mode == UserData.FOLLOWING:
+            data = client.get_users_following(
+                    id=twitter_user_id,
+                    user_fields=['profile_image_url','url']
+            )
         return {
             'data':data,
             'status':200,
@@ -78,7 +109,7 @@ async def getUserInfo(user_id:str):
     else:
         return res
 
-# https://twitter.com/i/oauth2/authorize?response_type=code&client_id=aTBraVVTSHktUmE1ZHVGRXQ0YXo6MTpjaQ&redirect_uri=http://127.0.0.1:8000/api/token&scope=tweet.read%20users.read%20follows.read%20follows.write&state=state&code_challenge=challenge&code_challenge_method=plain
+# https://twitter.com/i/oauth2/authorize?response_type=code&client_id=aTBraVVTSHktUmE1ZHVGRXQ0YXo6MTpjaQ&redirect_uri=http://127.0.0.1:8000/api/token&scope=tweet.read%20mute.read%20users.read%20follows.read%20follows.write&state=state&code_challenge=challenge&code_challenge_method=plain
 @app.get('/api/token')
 async def token(code:str, state: Union[str,None] = None, settings: Settings = Depends(get_settings)):
     url = "https://api.twitter.com/2/oauth2/token?"
@@ -108,7 +139,7 @@ def getTwitterURL(settings: Settings = Depends(get_settings)):
     )
     return {
         'data':{
-            'twitter_url':'https://twitter.com/i/oauth2/authorize?response_type=code&client_id=aTBraVVTSHktUmE1ZHVGRXQ0YXo6MTpjaQ&redirect_uri=http://127.0.0.1:8000/api/token&scope=tweet.read%20users.read%20follows.read%20follows.write&state=state&code_challenge=challenge&code_challenge_method=plain'
+            'twitter_url':'https://twitter.com/i/oauth2/authorize?response_type=code&client_id=aTBraVVTSHktUmE1ZHVGRXQ0YXo6MTpjaQ&redirect_uri=http://127.0.0.1:8000/api/token&scope=tweet.read%20mute.read%20users.read%20follows.read%20follows.write&state=state&code_challenge=challenge&code_challenge_method=plain'
         }
     }
 
