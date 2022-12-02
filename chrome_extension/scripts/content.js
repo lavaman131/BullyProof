@@ -24,7 +24,7 @@ class TweetManager {
             chrome.runtime.sendMessage({
                 type: "npi-negative-check",
                 text
-            /*get result frorm the function */
+            /*get result from the function */
             }, result => {
                 this.isNegative = result;
                 resolve(result);
@@ -113,7 +113,7 @@ class TweetManager {
 }
 let handlingTweetEles = new Set();
 watchBodyChange(() => {
-    console.log("change");
+    // console.log("change");
     for (let ele of document.querySelectorAll(Selectors.tweet)) {
         if (handlingTweetEles.has(ele)) continue;
         handlingTweetEles.add(ele);

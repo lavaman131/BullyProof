@@ -1,72 +1,58 @@
-import { default_keywords } from "../data/negative-words.js";
 const saveKeywordsButton = document.getElementById("save-keywords-button");
 const keywordsInput = document.querySelector("#keywords-input");
 const checkedToggle = document.getElementById("checked-toggle");
-let infoIcon = document.getElementById("infoIcon");
 let clip = document.querySelector(".vid");
-let useDefaultKeywords = true;
 
 /* Applying mouseover event on video clip
 and then we call play() function to play
 the video when the mouse is over the video */
-clip.addEventListener("mouseover", function (e) {
+clip.addEventListener("mouseover", (e) => {
   clip.play();
 });
 /* Applying mouseout event on video clip
 and then we call pause() function to stop
 the video when the mouse is out the video */
-clip.addEventListener("mouseout", function (e) {
+clip.addEventListener("mouseout", (e) => {
   clip.pause();
 });
 
-saveKeywordsButton.addEventListener("click", () => {
-  let keywords_custom = keywordsInput.value
-    .split("\n")
-    .map((s) => s.trim())
-    .filter((s) => s);
-  chrome.storage.local.set(
-    {
-      keywords_custom,
-    },
-    () => {
-      saveKeywordsButton.textContent = "Saved";
-      setTimeout(() => {
-        saveKeywordsButton.textContent = "Save";
-      }, 1000);
-    }
-  );
+chrome.storage.local.get(["keywords_custom"], (local) => {
+  update(local.keywords_custom);
 });
 
-// chrome.storage.local.get(["keywords_custom"], local => {
-//     if (local.keywords_custom && local.keywords_custom.length) {
-//         keywordsInput.value = local.keywords_custom.join("\n") + "\n";
-//     }
-// });
+let update = (array) =>
+  saveKeywordsButton.addEventListener("click", () => {
+    let val = keywordsInput.value.trim().toLowerCase();
+    if (!array.includes(val)) {
+      array.push(val);
+      chrome.storage.local.set(
+        {
+          keywords_custom: array,
+        },
+        () => {
+          saveKeywordsButton.textContent = "Saved";
+          setTimeout(() => {
+            saveKeywordsButton.textContent = "Save";
+          }, 1000);
+        }
+      );
+    }
+  });
 
-let setStatusUI = () => {
-  if (useDefaultKeywords) {
+let setStatusUI = (useSmartFilter) => {
+  if (useSmartFilter) {
     checkedToggle.setAttribute("checked", true);
-    chrome.storage.local.set({ default_keywords });
   } else {
     checkedToggle.removeAttribute("checked");
-    chrome.storage.local.remove(["default_keywords"]);
   }
 };
 
-chrome.storage.local.get(["useDefaultKeywords"], (local) => {
-  useDefaultKeywords = !!local.useDefaultKeywords;
-  setStatusUI();
+chrome.storage.local.get(["useSmartFilter"], (local) => {
+  let useSmartFilter = !!local.useSmartFilter;
+  checkedToggle.addEventListener("click", () => {
+    chrome.storage.local.set({
+      useSmartFilter: !useSmartFilter,
+    });
+  });
+  setStatusUI(useSmartFilter);
 });
-
-checkedToggle.addEventListener("click", () => {
-  useDefaultKeywords = !useDefaultKeywords;
-  setStatusUI();
-  chrome.storage.local.set({ useDefaultKeywords });
-});
-
-infoIcon.addEventListener("click", (activeTab) => {
-  var newURL = "options/default_keywords.html";
-  chrome.tabs.create({ url: newURL });
-});
-
-setStatusUI();

@@ -1,74 +1,65 @@
-/*For future API usage */
-const NegativeScoreLevel = 0.6;
+// for generating UUIDS
+// const uuidv4 = require("uuid/v4");
+
 /* Filter function: */
 chrome.runtime.onMessage.addListener(function (msg, sender, sendResponse) {
-  console.log(msg);
+  // console.log(msg);
   if (msg && msg.type == "npi-negative-check") {
-    chrome.storage.local.get(null, function (local) {
+    chrome.storage.local.get(null, async function (local) {
       if (local.active) {
-        console.error("active and running");
-        const keywords = [...local.keywords_custom, ...local.default_keywords];
+        // console.error("active and running");
         /*detect if the keywords is in the tweet before the sentiment Analysis*/
-        for (let keyword of keywords || []) {
+        for (let keyword of local.keywords_custom || []) {
           if (msg.text.toLowerCase().includes(keyword.toLowerCase())) {
+            console.log(keyword);
             /*RETURN TRUE if contain keywords*/
             sendResponse(true);
             return;
           }
         }
+        if (local.useSmartFilter) {
+          let uuid = "123";
+          let response = await get_prediction(uuid, msg.text);
+          let { id, sentiment } = response[0];
+          if (sentiment == 1) {
+            // tweet classified as hate speech
+            sendResponse(true);
+            return;
+          }
+          // tweet not classified as hate speech
+          sendResponse(false);
+          return;
+        }
       } else {
         sendResponse(false);
       }
     });
+    return true;
   }
 });
 
 // write logic that uses nlp api to filter negative tweets
+async function get_prediction(uuid, message) {
+  var myHeaders = new Headers();
+  myHeaders.append("Content-Type", "application/json");
 
-//             var myHeaders = new Headers();
-// myHeaders.append("Content-Type", "application/json");
+  var raw = JSON.stringify([
+    {
+      id: uuid,
+      text: message,
+    },
+  ]);
 
-// var raw = JSON.stringify([
-//   {
-//     "id": "abcde",
-//     "text": "This is great!"
-//   },
-//   {
-//     "id": "abcdef",
-//     "text": "You are stupid!"
-//   }
-// ]);
-
-// var requestOptions = {
-//   method: 'POST',
-//   headers: myHeaders,
-//   body: raw,
-//   redirect: 'follow'
-// };
-
-// fetch("http://127.0.0.1:8000/predict/", requestOptions)
-//   .then(response => response.text())
-//   .then(result => console.log(result))
-//   .catch(error => console.log('error', error));
-
-//         });
-//         return true;
-//     }
-// });
-
-// Keep track of the history query so save the efficiency when tweets got reloaded
-let queryHistoryMap = new Map();
-
-//for future usage of query API (retrive history map + new sentient score)
-
-async function query(text) {
-  if (queryHistoryMap.has(text)) return queryHistoryMap.get(text);
-
-  /*random score, need API score embedded */
-  return {
-    score: 0.8, // Math.random(),
-    error: false,
+  var requestOptions = {
+    method: "POST",
+    headers: myHeaders,
+    body: raw,
+    redirect: "follow",
   };
+
+  let response = await fetch("http://127.0.0.1:8000/predict/", requestOptions);
+  let data = response.json();
+  return data;
 }
 
 chrome.runtime.onInstalled.addListener(async () => {
@@ -76,4 +67,8 @@ chrome.runtime.onInstalled.addListener(async () => {
     text: "ON",
   });
   chrome.action.setBadgeBackgroundColor({ color: [0, 255, 0, 0] }, () => {});
+  chrome.storage.local.set({
+    keywords_custom: [],
+    useSmartFilter: true
+  });
 });

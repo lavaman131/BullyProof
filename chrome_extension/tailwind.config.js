@@ -4,7 +4,7 @@ module.exports = {
   theme: {
     screens: {
       sm: "640px",
-      md: "768px",
+      md: "870px",
       lg: "1024px",
       xl: "1280px",
       "2xl": "1536px",
@@ -16,7 +16,7 @@ module.exports = {
       },
       colors: {
         aquaBlue: "rgb(77, 159, 235)",
-        midnightBlue: "#2B3E5B",
+        midnightBlue: "rgb(53, 71, 100)",
         light_teal: "#CAFEFF",
         dark_teal: "#67E8F9",
       },

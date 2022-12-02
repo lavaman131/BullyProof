@@ -1,7 +1,11 @@
 <!DOCTYPE html>
 <html>
   <head>
-    <meta charset="utf-8" />
+    <meta
+      name="viewport"
+      charset="utf-8"
+      content="width=device-width, initial-scale=1.0"
+    />
     <link rel="stylesheet" href="/css/output.css" />
     <script src="../node_modules/flowbite/dist/flowbite.js"></script>
     <script type="module" src="options.js"></script>
@@ -9,17 +13,16 @@
 
   <body class="bg-midnightBlue">
     <main class="mx-3">
-      <nav class="flex flex-col items-center justify-between py-4">
-        <div class="container-fluid w-full flex items-center relative">
-          <div class="container-fluid">
-            <img
-              src="/images/logo.png"
-              class="sm: w-40 md:w-56 absolute right-0 top-0"
-              alt=""
-            />
-          </div>
+      <div class="w-full flex items-center relative">
+        <div class="">
+          <img
+            src="/images/logo.png"
+            class="sm: w-40 md:w-56 absolute right-0 top-0"
+            alt=""
+          />
         </div>
-      </nav>
+      </div>
+
       <div class="flex flex-row items-center h-screen gap-4">
         <div class="flex flex-col gap-4 ml-20 relative">
           <h1
@@ -28,7 +31,7 @@
             Settings
           </h1>
           <hr
-            class="bg-gradient-to-r from-light_teal to-dark_teal h-1 -ml-20 max-w-lg"
+            class="bg-gradient-to-r from-light_teal to-dark_teal h-1 -ml-20 max-w-lg mr-2"
           />
           <h1
             class="mt-20 select-none text-4xl font-bold font-spartan text-transparent bg-clip-text text-light_teal"
@@ -36,8 +39,8 @@
             Basic
           </h1>
           <div class="flex flex-row items-center gap-2 relative">
-            <span class="text-lg font-medium font-anektelugu text-white"
-              >Enable Default Filters</span
+            <span class="text-xl font-medium font-anektelugu text-white"
+              >Enable Smart Filter</span
             >
             <button
               id="infoIcon"
@@ -71,19 +74,19 @@
             role="tooltip"
             class="inline-block absolute invisible z-10 py-2 px-3 text-sm font-normal font-anektelugu text-gray-400 rounded-lg shadow-sm opacity-0 transition-opacity duration-300 tooltip bg-white"
           >
-            Click to see full list of default negative keywords.
+            Uses AI to filter out potentially offensive words.
             <div class="tooltip-arrow" data-popper-arrow></div>
           </div>
           <span class="py-5"></span>
           <h1
-            class="mt-20 select-none text-3xl font-extrabold font-spartan text-transparent bg-clip-text text-light_teal"
+            class="mt-20 select-none text-4xl font-extrabold font-spartan text-transparent bg-clip-text text-light_teal"
           >
             Advanced
           </h1>
 
           <div class="flex flex-row items-center gap-2">
             <h1
-              class="select-none text-xl font-bold font-anektelugu text-white"
+              class="select-none text-xl font-medium font-anektelugu text-white"
             >
               Negative Keywords
             </h1>
@@ -115,18 +118,18 @@
             ></textarea>
             <button
               id="save-keywords-button"
-              class="font-light uppercase font-anektelugu bottom-0 right-0 text-lg px-5 rounded-lg bg-teal-300 hover:bg-teal-400 active:bg-teal-500 placeholder-gray-400 text-white"
+              class="font-light uppercase font-anektelugu bottom-0 right-0 text-lg px-5 rounded-lg bg-teal-300 hover:bg-teal-400 active:bg-teal-500 placeholder-gray-400 text-white mr-2"
             >
               Save
             </button>
           </div>
         </div>
-        <div class="invisible md:visible flex-auto">
+        <div class="invisible md:visible h-screen flex-grow">
           <video
             src="../videos/animation.mp4"
             type="video/mp4"
             muted
-            class="vid w-full"
+            class="vid object-cover h-full w-full"
             loop
           ></video>
         </div>
