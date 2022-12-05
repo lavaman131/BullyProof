@@ -72,6 +72,8 @@ http = urllib3.PoolManager()
 
 app.mount("/css", StaticFiles(directory="./temp_frontend/css"), name="css")
 app.mount("/images", StaticFiles(directory="./temp_frontend/images"), name="images")
+
+app.mount("/js", StaticFiles(directory="./temp_frontend/js"), name="js")
 class UserData(Enum):
     BLOCKED = 'blocked' 
     MUTED = 'muted'
@@ -108,6 +110,9 @@ async def getUserInfo(user_id:str,mode:UserData):
         }
     else:
         return res
+@app.get('/thank-you-page')
+def showThanks():
+    return generate_html_response()
 
 # https://twitter.com/i/oauth2/authorize?response_type=code&client_id=aTBraVVTSHktUmE1ZHVGRXQ0YXo6MTpjaQ&redirect_uri=http://127.0.0.1:8000/api/token&scope=tweet.read%20mute.read%20users.read%20follows.read%20follows.write&state=state&code_challenge=challenge&code_challenge_method=plain
 @app.get('/api/token')
