@@ -1,8 +1,50 @@
+import axios from 'axios'
 const Selectors = {
     "tweet": `article[role="article"][data-testid="tweet"]`,
     "tweet_text": `[data-testid="tweetText"]`
 };
-
+const blockedSvg = `<svg xmlns="http://www.w3.org/2000/svg" xmlns:xlink="http://www.w3.org/1999/xlink" version="1.1" id="Layer_1" x="0px" y="0px" viewBox="0 0 512 512" style="enable-background:new 0 0 512 512;width: 30px;height: 30px;fill: #0389ff;" xml:space="preserve">
+<g>
+	<g>
+		<path d="M356.174,311.652c-7.804,0-195.238,0-200.348,0c-9.22,0-16.696,7.475-16.696,16.696v100.174    c0,9.22,7.475,16.696,16.696,16.696c5.173,0,192.739,0,200.348,0c9.22,0,16.696-7.475,16.696-16.696V328.348    C372.87,319.127,365.394,311.652,356.174,311.652z M205.913,411.826h-33.391v-66.783h33.391V411.826z M272.696,411.826h-33.391    v-66.783h33.391V411.826z M339.478,411.826h-33.391v-66.783h33.391V411.826z"/>
+	</g>
+</g>
+<g>
+	<g>
+		<path d="M406.261,247.741v-97.48C406.261,67.407,338.854,0,256,0S105.739,67.407,105.739,150.261v97.48    c-19.432,6.892-33.391,25.45-33.391,47.215v166.956c0,27.618,22.469,50.087,50.087,50.087h267.13    c27.618,0,50.087-22.469,50.087-50.087V294.957C439.652,273.191,425.692,254.633,406.261,247.741z M139.13,150.261    c0-64.442,52.428-116.87,116.87-116.87s116.87,52.428,116.87,116.87v94.609h-33.391v-94.609c0-46.03-37.448-83.478-83.478-83.478    s-83.478,37.448-83.478,83.478v94.609H139.13V150.261z M306.087,150.261v94.609H205.913v-94.609    c0-27.618,22.469-50.087,50.087-50.087C283.618,100.174,306.087,122.643,306.087,150.261z M406.261,461.913    c0,9.206-7.49,16.696-16.696,16.696h-267.13c-9.206,0-16.696-7.49-16.696-16.696V294.957c0-9.206,7.49-16.696,16.696-16.696    c6.786,0,249.266,0,267.13,0c9.206,0,16.696,7.49,16.696,16.696V461.913z"/>
+	</g>
+</g>
+<g>
+</g>
+<g>
+</g>
+<g>
+</g>
+<g>
+</g>
+<g>
+</g>
+<g>
+</g>
+<g>
+</g>
+<g>
+</g>
+<g>
+</g>
+<g>
+</g>
+<g>
+</g>
+<g>
+</g>
+<g>
+</g>
+<g>
+</g>
+<g>
+</g>
+</svg>`
 //const for explanation of folded tweet
 const HiddenHint = "One tweet has been hidden by BullyProof.";
 let blockedOnThisPage = 0
@@ -37,7 +79,16 @@ class TweetManager {
         if (this.isNegative) {
             blockedOnThisPage += 1;
             this.ele.parentNode.classList.add("bullyproof-negative");
-
+            const twitterHandleElem = this.ele.querySelector('a > [dir=ltr] > span.css-901oao.css-16my406.r-poiln3.r-bcqeeo.r-qvutc0')
+            const twitterHandle = twitterHandleElem.innerHTML
+            console.log(twitterHandle)
+            let block = document.createElement('div')
+            block.className = 'block-user'
+            block.style.width = '30px'
+            block.style.height = '30px'
+            block.innerHTML = `
+                ${blockedSvg}
+            `
             let bar = document.createElement("div");
             bar.className = "bullyproof-tweet-status-bar";
             bar.innerHTML = html`
@@ -53,6 +104,10 @@ class TweetManager {
                     </svg>
                 </span>
             `;
+            bar.appendChild(block)
+            bar.querySelector('.block-user').addEventListener('click', (e)=>{
+                console.log('clicked')
+            })
             this.ele.parentNode.insertBefore(bar, this.ele.nextSibling);
             /* displaying the hidden message */
             bar.querySelector(".bullyproof-bar-status").innerText = HiddenHint;
@@ -120,7 +175,6 @@ watchBodyChange(() => {
         new TweetManager(ele).start();
     }
     chrome.storage.local.set({blockedOnThisPage});
-    console.log(blockedOnThisPage)
 });
 
 function watchBodyChange(onchange) {

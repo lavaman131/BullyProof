@@ -61,10 +61,7 @@ async function get_prediction(uuid, message) {
   return data;
 }
 
-console.error("running in background");
 chrome.runtime.onInstalled.addListener(async () => {
-  console.error("running on runtime");
-  console.error(uuidv4());
   chrome.action.setBadgeText({
     text: "ON",
   });
