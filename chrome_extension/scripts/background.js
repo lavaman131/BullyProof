@@ -1,5 +1,17 @@
-// for generating UUIDS
-// const uuidv4 = require("uuid/v4");
+import { v4 as uuidv4 } from 'uuid'
+console.error("running in backgroudn")
+chrome.runtime.onInstalled.addListener(() => {
+    console.error('running on runtime')
+    console.error(uuidv4())
+    chrome.action.setBadgeText({
+        text: "ON",
+    });
+    // chrome.storage.local.set({user_id:uuidv4()})
+    chrome.storage.local.set({user_id:123})
+
+    chrome.action.setBadgeBackgroundColor({ color: [0, 255, 0, 0] }, () => {  })
+});
+
 
 /* Filter function: */
 chrome.runtime.onMessage.addListener(function (msg, sender, sendResponse) {
@@ -18,7 +30,7 @@ chrome.runtime.onMessage.addListener(function (msg, sender, sendResponse) {
           }
         }
         if (local.useSmartFilter) {
-          let uuid = "123";
+          let uuid = uuidv4();
           let response = await get_prediction(uuid, msg.text);
           let { id, sentiment } = response[0];
           if (sentiment == 1) {
