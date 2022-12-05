@@ -1,4 +1,5 @@
 import 'flowbite'
+import axios from 'axios'
 const Selectors = {
     "tweet": `article[role="article"][data-testid="tweet"]`,
     "tweet_text": `[data-testid="tweetText"]`
@@ -81,18 +82,34 @@ class TweetManager {
         /*if the result is negative:*/
         if (this.isNegative) {
             blockedOnThisPage += 1;
+            const account = this.ele.querySelector
             this.ele.parentNode.classList.add("bullyproof-negative");
-            let block = `
-                <div style='width:30px;height:30px class='block-user' '>
-                    ${blockedSvg}
-                </div>
+            let block = document.createElement('div')
+            block.className = 'block-user'
+            block.style.width = '30px'
+            block.style.height = '30px'
+            block.innerHTML = `
+                ${blockedSvg}
             `
-            const tweetHeader = this.ele.querySelectorAll('.css-1dbjc4n .r-18u37iz .r-1wbh5a2 .r-13hce6t')[0]
-            console.log(tweetHeader)
-            tweetHeader.insertAdjacentHTML('afterend',block)
+            let handleSpan = this.ele.querySelectorAll('a.css-4rbku5 .css-18t94o4 .css-1dbjc4n .r-1loqt21 .r-1wbh5a2 .r-dnmrzs .r-1ny4l3l')[0]
+            console.log(handleSpan)
+            //handleSpan.classList.add('handle-span')
+            //let handle = handleSpan.innerHTML
+            //console.log(handle)
+            block.addEventListener('click',(e)=>{
+                console.log('clicked')
+            })
+            /*
+            tweetHeader = this.ele.querySelector('.css-901oao .css-16my406 .r-poiln3 .r-bcqeeo .r-qvutc0')
+            tweetHeader.classList.add('tweet-bheader')
+            tweetHeader.appendChild(block)
+            */
+            /*
+            tweetHeader.parentNode.insertAfter(block,tweetHeader.nextSibling)
             tweetHeader.querySelector('.block-user').addEventListener('click',(e)=>{
                 console.log('clicked')
             })
+            */
             let bar = document.createElement("div");
             bar.className = "bullyproof-tweet-status-bar";
             bar.innerHTML = html`
@@ -108,6 +125,7 @@ class TweetManager {
                     </svg>
                 </span>
             `;
+            bar.appendChild(block)
 
             this.ele.parentNode.insertBefore(bar, this.ele.nextSibling);
             /* displaying the hidden message */
