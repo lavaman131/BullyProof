@@ -1,17 +1,4 @@
-import { v4 as uuidv4 } from 'uuid'
-console.error("running in backgroudn")
-chrome.runtime.onInstalled.addListener(() => {
-    console.error('running on runtime')
-    console.error(uuidv4())
-    chrome.action.setBadgeText({
-        text: "ON",
-    });
-    // chrome.storage.local.set({user_id:uuidv4()})
-    chrome.storage.local.set({user_id:123})
-
-    chrome.action.setBadgeBackgroundColor({ color: [0, 255, 0, 0] }, () => {  })
-});
-
+import { v4 as uuidv4 } from "uuid";
 
 /* Filter function: */
 chrome.runtime.onMessage.addListener(function (msg, sender, sendResponse) {
@@ -74,13 +61,19 @@ async function get_prediction(uuid, message) {
   return data;
 }
 
+console.error("running in background");
 chrome.runtime.onInstalled.addListener(async () => {
+  console.error("running on runtime");
+  console.error(uuidv4());
   chrome.action.setBadgeText({
     text: "ON",
   });
+  chrome.storage.local.set({ user_id: uuidv4() });
+  // chrome.storage.local.set({ user_id: 123 });
+
   chrome.action.setBadgeBackgroundColor({ color: [0, 255, 0, 0] }, () => {});
   chrome.storage.local.set({
     keywords_custom: [],
-    useSmartFilter: true
+    useSmartFilter: true,
   });
 });
