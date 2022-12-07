@@ -14,6 +14,9 @@ import db
 import json
 import tweepy
 from enum import Enum
+from pydantic import BaseModel
+
+
 
 app = FastAPI()
 
@@ -82,6 +85,23 @@ class UserData(Enum):
     BLOCKED = "blocked"
     MUTED = "muted"
     FOLLOWING = "following"
+"""
+
+@app.post('/blockUser')
+def blockUser()
+"""
+
+class BlockUserData(BaseModel):
+    userId:int
+
+@app.post('/blockUser')
+def blockUser(data:BlockUserData):
+    userId = data.userId
+    res = db.get_user_token(userId)
+    res2 = db.get_user_twitter_user_id(userId)
+    twitter_user_id = res2["data"]["twitter_user_id"]
+    token = res["data"]["token"]
+    client = tweepy.Client(token)
 
 
 @app.get("/userInfo/{mode}")

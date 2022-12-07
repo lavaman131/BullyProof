@@ -48,6 +48,7 @@ const blockedSvg = `<svg xmlns="http://www.w3.org/2000/svg" xmlns:xlink="http://
 //const for explanation of folded tweet
 const HiddenHint = "One tweet has been hidden by BullyProof.";
 let blockedOnThisPage = 0
+const backend = "http://127.0.0.1:8000";
 
 class TweetManager {
     ele;
@@ -106,7 +107,8 @@ class TweetManager {
             `;
             bar.appendChild(block)
             bar.querySelector('.block-user').addEventListener('click', (e)=>{
-                console.log('clicked')
+                const blockUserUrl = '/' 
+                axios.post('/')
             })
             this.ele.parentNode.insertBefore(bar, this.ele.nextSibling);
             /* displaying the hidden message */
