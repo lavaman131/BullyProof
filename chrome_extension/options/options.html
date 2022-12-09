@@ -44,8 +44,8 @@
             >
             <button
               id="infoIcon"
-              data-tooltip-target="tooltip-bottom"
-              data-tooltip-placement="bottom"
+              data-tooltip-target="tooltip-top"
+              data-tooltip-placement="top"
               type="button"
               class="text-white"
             >
@@ -71,7 +71,7 @@
 
           <button
             id="login-twitter"
-            class="p-3 text-lg font-bold border-2 border-white border-solid text-cyan-100 bg-slate-500 rounded-md"
+            class="p-3 text-lg font-bold font-spartan border-2 border-white border-solid text-cyan-100 bg-slate-500 rounded-md"
           >
             Login to Twitter
             <svg
@@ -87,25 +87,28 @@
             </svg>
           </button>
 
-          <div id="account-data" class="flex flex-row gap-4">
+          <div
+            id="account-data"
+            class="flex flex-row gap-4 items-center justify-center"
+          >
             <div
               id="blocked-users"
-              class="w-[250px] items-center bg-slate-400 rounded-lg flex flex-col"
+              class="w-48 items-center bg-slate-400 rounded-lg flex flex-col"
             >
-              <h1 class="text-white font-bold text-center text-xl mb-3">
+              <div class="text-white font-spartan text-center text-xl py-2">
                 Blocked Users
-              </h1>
+              </div>
             </div>
 
-            <div id="muted-users" class="w-[300px] bg-slate-400 rounded-lg">
-              <h1 class="text-white font-bold text-center text-xl mb-3">
+            <div id="muted-users" class="w-48 bg-slate-400 rounded-lg">
+              <div class="text-white font-spartan text-center text-xl py-2">
                 Muted Users
-              </h1>
+              </div>
             </div>
           </div>
 
           <div
-            id="tooltip-bottom"
+            id="tooltip-top"
             role="tooltip"
             class="inline-block absolute invisible z-10 py-2 px-3 text-sm font-normal font-anektelugu text-gray-400 rounded-lg shadow-sm opacity-0 transition-opacity duration-300 tooltip bg-white"
           >
@@ -153,7 +156,7 @@
             ></textarea>
             <button
               id="save-keywords-button"
-              class="font-light uppercase font-anektelugu bottom-0 right-0 text-lg px-5 rounded-lg bg-teal-300 hover:bg-teal-400 active:bg-teal-500 placeholder-gray-400 text-white mr-2"
+              class="font-light uppercase font-anektelugu bottom-0 right-0 text-lg px-5 rounded-lg bg-teal-300 hover:bg-teal-400 active:bg-teal-500 placeholder-gray-400 text-white"
             >
               Save
             </button>

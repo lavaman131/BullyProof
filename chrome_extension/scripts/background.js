@@ -56,7 +56,10 @@ async function get_prediction(uuid, message) {
     redirect: "follow",
   };
 
-  let response = await fetch("http://127.0.0.1:8000/predict/", requestOptions);
+  let response = await fetch(
+    "https://inference-api-v7hjlveoxa-ue.a.run.app/predict/",
+    requestOptions
+  );
   let data = response.json();
   return data;
 }
