@@ -14,9 +14,7 @@ import db
 import json
 import tweepy
 from enum import Enum
-from pydantic import BaseModel
-
-
+import os
 
 app = FastAPI()
 
@@ -41,8 +39,49 @@ class TwitterData(BaseModel):
     id: str
     text: str
 
+here = os.getcwd()
+path = os.path.join(here,'models','random_forest_clf.pkl')
 
-clf = joblib.load("models/random_forest_clf.pkl")
+clf = joblib.load(path)
+
+class TwitterHandleData(BaseModel):
+    twitter_handle:str
+    user_id:str
+
+class ClientResponse():
+    def __init__(self, status_message, status, data):
+        self.data = data
+        self.status = status
+        self.message = status_message
+    def get(self):
+        return {
+            'data':self.data,
+            'status':self.status,
+            'message':self.message
+        }
+
+@app.post('/block-user')
+def block(twitter_handle_data:TwitterHandleData):
+    user_id = twitter_handle_data.user_id
+    twitter_handle = twitter_handle_data.twitter_handle
+    res = db.get_user_token(user_id)
+
+    if res["status"] == 200:
+        res2 = db.get_user_twitter_user_id(user_id)
+        twitter_user_id = res2["data"]["twitter_user_id"]
+        token = res["data"]["token"]
+        client = tweepy.Client(token)
+        block_user_id = client.get_user(username = twitter_handle)['data']['id']
+        block_res = client.block(target_user_id = block_user_id, user_auth=False)
+        if block_res['data']['blocking']:
+            return ClientResponse(status_message='user has been blocked', status=200, data={'blocking':True}).get()
+        else:
+            return ClientResponse(status_message='user has NOT been blocked', status=500, data={'blocking':False}).get()
+
+    else:
+        return res
+
+
 
 
 @app.post("/predict/")
@@ -85,23 +124,6 @@ class UserData(Enum):
     BLOCKED = "blocked"
     MUTED = "muted"
     FOLLOWING = "following"
-"""
-
-@app.post('/blockUser')
-def blockUser()
-"""
-
-class BlockUserData(BaseModel):
-    userId:int
-
-@app.post('/blockUser')
-def blockUser(data:BlockUserData):
-    userId = data.userId
-    res = db.get_user_token(userId)
-    res2 = db.get_user_twitter_user_id(userId)
-    twitter_user_id = res2["data"]["twitter_user_id"]
-    token = res["data"]["token"]
-    client = tweepy.Client(token)
 
 
 @app.get("/userInfo/{mode}")
