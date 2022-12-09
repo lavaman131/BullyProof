@@ -63,7 +63,7 @@ class ClientResponse():
 @app.post('/block-user')
 def block(twitter_handle_data:TwitterHandleData):
     user_id = twitter_handle_data.user_id
-    twitter_handle = twitter_handle_data.twitter_handle
+    twitter_handle = twitter_handle_data.twitter_handle[1:] # remove the @ from the handle
     res = db.get_user_token(user_id)
 
     if res["status"] == 200:
@@ -71,9 +71,10 @@ def block(twitter_handle_data:TwitterHandleData):
         twitter_user_id = res2["data"]["twitter_user_id"]
         token = res["data"]["token"]
         client = tweepy.Client(token)
-        block_user_id = client.get_user(username = twitter_handle)['data']['id']
+        block_user_id = client.get_user(username = twitter_handle).data.id
+        print(block_user_id)
         block_res = client.block(target_user_id = block_user_id, user_auth=False)
-        if block_res['data']['blocking']:
+        if block_res.data['blocking']:
             return ClientResponse(status_message='user has been blocked', status=200, data={'blocking':True}).get()
         else:
             return ClientResponse(status_message='user has NOT been blocked', status=500, data={'blocking':False}).get()
@@ -187,9 +188,25 @@ def getTwitterURL(settings: Settings = Depends(get_settings)):
         redirect_uri=settings.redirect_uri,
         scope=settings.scope,
     )
+    d = {
+        "response_type":"code",
+        "client_id":settings.client_id,
+        "redirect_uri":settings.redirect_uri,
+        "scope":settings.scope,
+        "state":"state",
+        "code_challenge":"challenge",
+        "code_challenge_method":"plain"
+    }
+    def generateUrl():
+        ret = ""
+        for (key,value) in d.items():
+            ret += f"{key}={value}&"
+        return ret[:-1] # get rid of last &
+    url = generateUrl()
+    print(url)
     return {
         "data": {
-            "twitter_url": "https://twitter.com/i/oauth2/authorize?response_type=code&client_id=aTBraVVTSHktUmE1ZHVGRXQ0YXo6MTpjaQ&redirect_uri=http://127.0.0.1:8000/api/token&scope=tweet.read%20mute.read%20users.read%20follows.read%20follows.write&state=state&code_challenge=challenge&code_challenge_method=plain"
+            "twitter_url": f"https://twitter.com/i/oauth2/authorize?{url}"
         }
     }
 

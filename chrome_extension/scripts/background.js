@@ -65,8 +65,8 @@ chrome.runtime.onInstalled.addListener(async () => {
   chrome.action.setBadgeText({
     text: "ON",
   });
-  chrome.storage.local.set({ user_id: uuidv4() });
-  // chrome.storage.local.set({ user_id: 123 });
+  //chrome.storage.local.set({ user_id: uuidv4() });
+  chrome.storage.local.set({ user_id: 123 });
 
   chrome.action.setBadgeBackgroundColor({ color: [0, 255, 0, 0] }, () => {});
   chrome.storage.local.set({
