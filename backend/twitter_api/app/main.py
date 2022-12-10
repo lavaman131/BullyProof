@@ -16,10 +16,6 @@ from enum import Enum
 app = FastAPI()
 
 origins = [
-    "http://localhost:8000",
-    "http://127.0.0.1:8000",
-    # for testing only
-    # "chrome-extension://bifccmdicgpgadklpdbabagecnoambfb",
     "*",
 ]
 
@@ -120,16 +116,30 @@ async def token(
 
 @app.get("/api/twitter-url")
 def getTwitterURL(settings: Settings = Depends(get_settings)):
-    oauth2_user_handler = tweepy.OAuth2UserHandler(
-        client_id=settings.client_id,
-        redirect_uri=settings.redirect_uri,
-        scope=settings.scope,
-    )
-    return {
-        "data": {
-            "twitter_url": "https://twitter.com/i/oauth2/authorize?response_type=code&client_id=aTBraVVTSHktUmE1ZHVGRXQ0YXo6MTpjaQ&redirect_uri=http://127.0.0.1:8000/api/token&scope=tweet.read%20mute.read%20users.read%20follows.read%20follows.write&state=state&code_challenge=challenge&code_challenge_method=plain"
-        }
+    # oauth2_user_handler = tweepy.OAuth2UserHandler(
+    #     client_id=settings.client_id,
+    #     redirect_uri=settings.redirect_uri,
+    #     scope=settings.scope,
+    # )
+    d = {
+        "response_type": "code",
+        "client_id": settings.client_id,
+        "redirect_uri": settings.redirect_uri,
+        "scope": settings.scope,
+        "state": "state",
+        "code_challenge": "challenge",
+        "code_challenge_method": "plain",
     }
+
+    def generateUrl():
+        ret = ""
+        for (key, value) in d.items():
+            ret += f"{key}={value}&"
+        return ret[:-1]  # get rid of last &
+
+    url = generateUrl()
+    # print(url)
+    return {"data": {"twitter_url": f"https://twitter.com/i/oauth2/authorize?{url}"}}
 
 
 @app.get("/")

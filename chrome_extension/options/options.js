@@ -1,6 +1,6 @@
 import axios from "axios";
 
-const backend = "http://127.0.0.1:8000";
+const backend = "https://twitter-api-v7hjlveoxa-ue.a.run.app";
 
 const saveKeywordsButton = document.getElementById("save-keywords-button");
 const keywordsInput = document.querySelector("#keywords-input");
