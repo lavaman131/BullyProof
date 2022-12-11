@@ -12,6 +12,7 @@ import db
 import json
 import tweepy
 from enum import Enum
+import time
 
 app = FastAPI()
 
@@ -62,20 +63,27 @@ class UserData(Enum):
 
 @app.get("/userInfo/{mode}")
 async def getUserInfo(user_id: str, mode: UserData):
+    time_last_pinged = db.get_time_created(user_id=user_id)['data']['time_created']
+    if time_last_pinged != None:
+        # rate limit @ 1 twitter api req per 15 seconds
+        if (time.time() // 1) - time_last_pinged < 15:
+            return {
+                "data":{
+                    "rate_limit":True
+                },
+                "message":"rate limit of 15 seconds; too many requests",
+                "status":300,
+            }
     res = db.get_user_token(user_id)
-
+    db.update_time_created(user_id,(time.time() // 1))
     if res["status"] == 200:
-        res2 = db.get_user_twitter_user_id(user_id)
+        res2 = db.get_user_twitter_user_id(user_id,)
         twitter_user_id = res2["data"]["twitter_user_id"]
         token = res["data"]["token"]
         client = tweepy.Client(token)
         if mode == UserData.BLOCKED:
             data = client.get_users_following(
                 id=twitter_user_id, user_fields=["profile_image_url", "url"]
-            )
-        elif mode == UserData.MUTED:
-            data = client.get_muted(
-                user_auth=False, user_fields=["profile_image_url", "url"]
             )
         elif mode == UserData.FOLLOWING:
             data = client.get_users_following(
@@ -109,8 +117,8 @@ async def token(
     client = tweepy.Client(token)
     twitter_user_id = client.get_me(user_auth=False).data["id"]
     # replace later with real user_id
-    user_id = "123"
-    db.update_user(user_id, twitter_user_id=twitter_user_id, token=token)
+    user_id = state
+    print(db.update_user(user_id ,twitter_user_id=twitter_user_id, token=token))
     return generate_html_response()
 
 
@@ -124,9 +132,8 @@ def getTwitterURL(settings: Settings = Depends(get_settings)):
     d = {
         "response_type": "code",
         "client_id": settings.client_id,
-        "redirect_uri": settings.redirect_uri,
+        "redirect_uri":settings.redirect_uri,
         "scope": settings.scope,
-        "state": "state",
         "code_challenge": "challenge",
         "code_challenge_method": "plain",
     }

@@ -1,6 +1,7 @@
 import axios from "axios";
 
-const backend = "https://twitter-api-v7hjlveoxa-ue.a.run.app";
+// const backend = "https://twitter-api-v7hjlveoxa-ue.a.run.app";
+const backend = "http://127.0.0.1:8000"
 
 const saveKeywordsButton = document.getElementById("save-keywords-button");
 const keywordsInput = document.querySelector("#keywords-input");
@@ -23,6 +24,15 @@ the video when the mouse is out the video */
 clip.addEventListener("mouseout", (e) => {
   clip.pause();
 });
+
+const displayLoggedIn = (cond) => {
+    if(!cond){
+        loginTwitter.style.display = 'inline-block'
+    }else{
+        loginTwitter.style.display = 'none'
+    }
+}
+
 
 chrome.storage.local.get(["keywords_custom"], (local) => {
   update(local.keywords_custom);
@@ -64,14 +74,22 @@ chrome.storage.local.get(["useSmartFilter"], (local) => {
   });
   setStatusUI(useSmartFilter);
 });
+    chrome.storage.local.get(['logged_in'],(local) => {
+        displayLoggedIn(local.logged_in)
+    })
+loginTwitter.addEventListener("click", async (ev) => {
+    chrome.storage.local.get(['user_id'],(local)=>{
+        const user_id = local.user_id
+        const getUrl = backend + "/api/twitter-url";
+        axios.get(getUrl).then(({ data }) => {
+            console.log(data["data"]["twitter_url"]);
+            let url = data["data"]["twitter_url"];
+            url = `${url}&state=${user_id}`    
 
-loginTwitter.addEventListener("click", (ev) => {
-  const getUrl = backend + "/api/twitter-url";
-  axios.get(getUrl).then(({ data }) => {
-    console.log(data["data"]["twitter_url"]);
-    const url = data["data"]["twitter_url"];
-    chrome.tabs.create({ url });
-  });
+            chrome.tabs.create({ url });
+        });
+    })
+
 });
 
 const createProfileNode = (username, profAt, profPic, url) => {
@@ -80,10 +98,9 @@ const createProfileNode = (username, profAt, profPic, url) => {
                 href='https://twitter.com/${profAt}'
                 >
                     <div
-                    class="w-[200px] mb-3 flex flex-row px-3 rounded-md border-3 bg-slate-500 items-center">
+                    class="blocked-profiles">
                         <img src="${profPic}">
                         <div
-                        class='ml-[10px] overflow-hidden'>
                             <p class="text-xl font-bold text-white">${username}</p>
                             <p class="text-lg text-slate-500">@${profAt}</p>
                         </div>
@@ -92,6 +109,7 @@ const createProfileNode = (username, profAt, profPic, url) => {
                 `;
   return html;
 };
+
 
 chrome.storage.local.get(["user_id"], (local) => {
   const getBlockedUsersUrl = `${backend}/userInfo/blocked?user_id=${local.user_id}`;
@@ -105,43 +123,53 @@ chrome.storage.local.get(["user_id"], (local) => {
     })
     */
   axios.get(getBlockedUsersUrl).then(({ data: res }) => {
-    console.error(res);
-    const { data: t } = res;
-    console.error(t);
-    let g = t[0];
-    console.error(g);
-    g.forEach(
-      ({
-        username: profAt,
-        name: username,
-        profile_image_url: profPic,
-        url,
-      }) => {
-        blockedUsersDiv.insertAdjacentHTML(
-          "beforeend",
-          createProfileNode(username, profAt, profPic, url)
+    const { data: t, status } = res;
+    if(status == 300){
+        console.log('rate limiting')
+        chrome.storage.local.get(['blocked_profiles'],(local) => {
+            let g = local.blocked_profiles
+            console.log('g in rate limiting')
+            console.log(g)
+            g.forEach(
+            ({
+                username: profAt,
+                name: username,
+                profile_image_url: profPic,
+                url,
+            }) => {
+                blockedUsersDiv.insertAdjacentHTML(
+                "beforeend",
+                createProfileNode(username, profAt, profPic, url)
+                );
+            }
+            );
+        })
+        chrome.storage.local.set({'logged_in':true})
+    } else if(status == 500){
+        chrome.storage.local.set({'logged_in':false})
+    } else{
+        chrome.storage.local.set({'logged_in':true})
+        let g = t[0];
+        chrome.storage.local.set({
+            blocked_profiles:g
+        })
+        console.log(g)
+        g.forEach(
+        ({
+            username: profAt,
+            name: username,
+            profile_image_url: profPic,
+            url,
+        }) => {
+            blockedUsersDiv.insertAdjacentHTML(
+            "beforeend",
+            createProfileNode(username, profAt, profPic, url)
+            );
+        }
         );
-      }
-    );
-  });
-  axios.get(getMutedUsersUrl).then(({ data: res }) => {
-    console.error(res);
-    const { data: t } = res;
-    console.error(t);
-    let g = t[0];
-    console.error(g);
-    g.forEach(
-      ({
-        username: profAt,
-        name: username,
-        profile_image_url: profPic,
-        url,
-      }) => {
-        blockedUsersDiv.insertAdjacentHTML(
-          "beforeend",
-          createProfileNode(username, profAt, profPic, url)
-        );
-      }
-    );
+    }
+    chrome.storage.local.get(['logged_in'],(local) => {
+        displayLoggedIn(local.logged_in)
+    })
   });
 });

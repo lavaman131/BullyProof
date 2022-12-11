@@ -8,6 +8,27 @@ article[role="article"][data-testid="tweet"] {
     transition: height .3s, opacity .3s;
 }
 
+.scrollbar-hide::-webkit-scrollbar {
+    display: none;
+}
+
+/* For IE, Edge and Firefox */
+.scrollbar-hide {
+    -ms-overflow-style: none;  /* IE and Edge */
+    scrollbar-width: none;  /* Firefox */
+}
+
+.blocked-profiles{
+    @apply w-full py-3 flex flex-row px-3 border-y-2 items-center bg-black;
+}
+
+.blocked-profiles > div {
+    @apply ml-4 overflow-hidden;
+}
+
+.blocked-profiles > img {
+    border-radius: 50%;
+}
 
 article[role="article"][data-testid="tweet"]:not(.bullyproof-handled *) {
     animation: tweet-show 1s;

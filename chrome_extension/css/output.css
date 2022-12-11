@@ -1,5 +1,5 @@
 /*
-! tailwindcss v3.1.8 | MIT License | https://tailwindcss.com
+! tailwindcss v3.2.4 | MIT License | https://tailwindcss.com
 */
 
 /*
@@ -30,6 +30,7 @@
 2. Prevent adjustments of font size after orientation changes in iOS.
 3. Use a more readable tab size.
 4. Use the user's configured `sans` font-family by default.
+5. Use the user's configured `sans` font-feature-settings by default.
 */
 
 html {
@@ -44,6 +45,8 @@ html {
   /* 3 */
   font-family: ui-sans-serif, system-ui, -apple-system, BlinkMacSystemFont, "Segoe UI", Roboto, "Helvetica Neue", Arial, "Noto Sans", sans-serif, "Apple Color Emoji", "Segoe UI Emoji", "Segoe UI Symbol", "Noto Color Emoji";
   /* 4 */
+  font-feature-settings: normal;
+  /* 5 */
 }
 
 /*
@@ -410,6 +413,12 @@ video {
   height: auto;
 }
 
+/* Make elements with the HTML hidden attribute stay hidden by default */
+
+[hidden] {
+  display: none;
+}
+
 [type='text'],[type='email'],[type='url'],[type='password'],[type='number'],[type='date'],[type='datetime-local'],[type='month'],[type='search'],[type='tel'],[type='time'],[type='week'],[multiple],textarea,select {
   -webkit-appearance: none;
      -moz-appearance: none;
@@ -655,7 +664,7 @@ input[type="range"]::-ms-fill-lower {
 
 [data-tooltip-style^='light'] + .tooltip > .tooltip-arrow:before {
   border-style: solid;
-  border-color: #E5E7EB;
+  border-color: #e5e7eb;
 }
 
 [data-tooltip-style^='light'] + .tooltip[data-popper-placement^='top'] > .tooltip-arrow:before {
@@ -727,12 +736,12 @@ input[type="range"]::-ms-fill-lower {
 
 [role="tooltip"] > [data-popper-arrow]:before {
   border-style: solid;
-  border-color: #E5E7EB;
+  border-color: #e5e7eb;
 }
 
 [role="tooltip"] > [data-popper-arrow]:after {
   border-style: solid;
-  border-color: #E5E7EB;
+  border-color: #e5e7eb;
 }
 
 [data-popover][role="tooltip"][data-popper-placement^='top'] > [data-popper-arrow]:before {
@@ -955,6 +964,10 @@ input[type="range"]::-ms-fill-lower {
   margin-bottom: 0.75rem;
 }
 
+.mt-5 {
+  margin-top: 1.25rem;
+}
+
 .mr-2 {
   margin-right: 0.5rem;
 }
@@ -973,10 +986,6 @@ input[type="range"]::-ms-fill-lower {
 
 .mb-0 {
   margin-bottom: 0px;
-}
-
-.mt-5 {
-  margin-top: 1.25rem;
 }
 
 .block {
@@ -1003,6 +1012,19 @@ input[type="range"]::-ms-fill-lower {
   display: grid;
 }
 
+.h-max {
+  height: -moz-max-content;
+  height: max-content;
+}
+
+.h-24 {
+  height: 6rem;
+}
+
+.h-7 {
+  height: 1.75rem;
+}
+
 .h-screen {
   height: 100vh;
 }
@@ -1019,25 +1041,25 @@ input[type="range"]::-ms-fill-lower {
   height: 1.5rem;
 }
 
-.h-28 {
-  height: 7rem;
+.h-48 {
+  height: 12rem;
 }
 
 .h-full {
   height: 100%;
 }
 
-.h-max {
-  height: -moz-max-content;
-  height: max-content;
+.w-max {
+  width: -moz-max-content;
+  width: max-content;
 }
 
-.h-24 {
-  height: 6rem;
+.w-24 {
+  width: 6rem;
 }
 
-.h-7 {
-  height: 1.75rem;
+.w-7 {
+  width: 1.75rem;
 }
 
 .w-20 {
@@ -1062,19 +1084,6 @@ input[type="range"]::-ms-fill-lower {
 
 .w-80 {
   width: 20rem;
-}
-
-.w-max {
-  width: -moz-max-content;
-  width: max-content;
-}
-
-.w-24 {
-  width: 6rem;
-}
-
-.w-7 {
-  width: 1.75rem;
 }
 
 .max-w-lg {
@@ -1180,6 +1189,11 @@ input[type="range"]::-ms-fill-lower {
   border-color: rgb(75 85 99 / var(--tw-border-opacity));
 }
 
+.bg-slate-800 {
+  --tw-bg-opacity: 1;
+  background-color: rgb(30 41 59 / var(--tw-bg-opacity));
+}
+
 .bg-midnightBlue {
   --tw-bg-opacity: 1;
   background-color: rgb(53 71 100 / var(--tw-bg-opacity));
@@ -1218,11 +1232,6 @@ input[type="range"]::-ms-fill-lower {
 .bg-teal-300 {
   --tw-bg-opacity: 1;
   background-color: rgb(126 220 226 / var(--tw-bg-opacity));
-}
-
-.bg-slate-800 {
-  --tw-bg-opacity: 1;
-  background-color: rgb(30 41 59 / var(--tw-bg-opacity));
 }
 
 .bg-gradient-to-r {
@@ -1269,6 +1278,16 @@ input[type="range"]::-ms-fill-lower {
   padding: 0.5rem;
 }
 
+.py-5 {
+  padding-top: 1.25rem;
+  padding-bottom: 1.25rem;
+}
+
+.px-5 {
+  padding-left: 1.25rem;
+  padding-right: 1.25rem;
+}
+
 .py-3 {
   padding-top: 0.75rem;
   padding-bottom: 0.75rem;
@@ -1289,16 +1308,6 @@ input[type="range"]::-ms-fill-lower {
   padding-right: 0.75rem;
 }
 
-.py-5 {
-  padding-top: 1.25rem;
-  padding-bottom: 1.25rem;
-}
-
-.px-5 {
-  padding-left: 1.25rem;
-  padding-right: 1.25rem;
-}
-
 .text-left {
   text-align: left;
 }
@@ -1313,6 +1322,11 @@ input[type="range"]::-ms-fill-lower {
 
 .font-anektelugu {
   font-family: Anek Telugu, sans-serif;
+}
+
+.text-lg {
+  font-size: 1.125rem;
+  line-height: 1.75rem;
 }
 
 .text-sm {
@@ -1332,11 +1346,6 @@ input[type="range"]::-ms-fill-lower {
 
 .text-xl {
   font-size: 1.25rem;
-  line-height: 1.75rem;
-}
-
-.text-lg {
-  font-size: 1.125rem;
   line-height: 1.75rem;
 }
 
@@ -1364,6 +1373,11 @@ input[type="range"]::-ms-fill-lower {
   text-transform: uppercase;
 }
 
+.text-white {
+  --tw-text-opacity: 1;
+  color: rgb(255 255 255 / var(--tw-text-opacity));
+}
+
 .text-gray-600 {
   --tw-text-opacity: 1;
   color: rgb(75 85 99 / var(--tw-text-opacity));
@@ -1381,11 +1395,6 @@ input[type="range"]::-ms-fill-lower {
 .text-light_teal {
   --tw-text-opacity: 1;
   color: rgb(202 254 255 / var(--tw-text-opacity));
-}
-
-.text-white {
-  --tw-text-opacity: 1;
-  color: rgb(255 255 255 / var(--tw-text-opacity));
 }
 
 .text-cyan-100 {
@@ -1445,6 +1454,43 @@ input[type="range"]::-ms-fill-lower {
 
 article[role="article"][data-testid="tweet"] {
   transition: height .3s, opacity .3s;
+}
+
+.scrollbar-hide::-webkit-scrollbar {
+  display: none;
+}
+
+/* For IE, Edge and Firefox */
+
+.scrollbar-hide {
+  -ms-overflow-style: none;
+  /* IE and Edge */
+  scrollbar-width: none;
+  /* Firefox */
+}
+
+.blocked-profiles {
+  display: flex;
+  width: 100%;
+  flex-direction: row;
+  align-items: center;
+  border-top-width: 2px;
+  border-bottom-width: 2px;
+  --tw-bg-opacity: 1;
+  background-color: rgb(0 0 0 / var(--tw-bg-opacity));
+  padding-top: 0.75rem;
+  padding-bottom: 0.75rem;
+  padding-left: 0.75rem;
+  padding-right: 0.75rem;
+}
+
+.blocked-profiles > div {
+  margin-left: 1rem;
+  overflow: hidden;
+}
+
+.blocked-profiles > img {
+  border-radius: 50%;
 }
 
 article[role="article"][data-testid="tweet"]:not(.bullyproof-handled *) {
