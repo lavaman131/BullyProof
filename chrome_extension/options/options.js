@@ -6,7 +6,7 @@ const backend = "http://127.0.0.1:8000"
 const saveKeywordsButton = document.getElementById("save-keywords-button");
 const keywordsInput = document.querySelector("#keywords-input");
 const checkedToggle = document.getElementById("checked-toggle");
-const loginTwitter = document.querySelector("#login-twitter");
+const loginTwitter = document.querySelector("#login-notice");
 
 let blockedUsersDiv = document.getElementById("blocked-users");
 
@@ -27,7 +27,7 @@ clip.addEventListener("mouseout", (e) => {
 
 const displayLoggedIn = (cond) => {
     if(!cond){
-        loginTwitter.style.display = 'inline-block'
+        loginTwitter.style.display = 'flex'
     }else{
         loginTwitter.style.display = 'none'
     }
@@ -110,7 +110,6 @@ const createProfileNode = (username, profAt, profPic, url) => {
   return html;
 };
 
-
 chrome.storage.local.get(["user_id"], (local) => {
   const getBlockedUsersUrl = `${backend}/userInfo/blocked?user_id=${local.user_id}`;
   const getMutedUsersUrl = `${backend}/userInfo/muted?user_id=${local.user_id}`;
@@ -146,6 +145,8 @@ chrome.storage.local.get(["user_id"], (local) => {
         })
         chrome.storage.local.set({'logged_in':true})
     } else if(status == 500){
+
+        console.log('status is 500')
         chrome.storage.local.set({'logged_in':false})
     } else{
         chrome.storage.local.set({'logged_in':true})
