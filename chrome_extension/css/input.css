@@ -19,7 +19,7 @@ article[role="article"][data-testid="tweet"] {
 }
 
 .blocked-profiles{
-    @apply w-full py-3 flex flex-row px-3 border-y-2 items-center bg-black;
+    @apply w-full py-3 flex flex-row px-3 border-y-2 items-center bg-slate-500;
 }
 
 .blocked-profiles > div {
