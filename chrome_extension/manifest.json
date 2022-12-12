@@ -2,7 +2,7 @@
     "manifest_version": 3,
     "name": "BullyProof",
     "version": "1.0.0",
-    "description": "An extension that filters negative comments in twitter.",
+    "description": "A chrome extension that allows users to filter out hate speech on social media.",
     "icons": {
         "16": "/images/lock.png",
         "32": "/images/lock.png",
