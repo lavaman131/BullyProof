@@ -8,10 +8,9 @@ from scipy.special import softmax
 import utils
 
 app = FastAPI()
-tokenizer = AutoTokenizer.from_pretrained("cardiffnlp/twitter-roberta-base-sentiment")
-model = TFAutoModelForSequenceClassification.from_pretrained(
-    "cardiffnlp/twitter-roberta-base-sentiment"
-)
+MODEL = f"cardiffnlp/twitter-roberta-base-sentiment-latest"
+tokenizer = AutoTokenizer.from_pretrained(MODEL)
+model = TFAutoModelForSequenceClassification.from_pretrained(MODEL)
 
 origins = [
     "*",
