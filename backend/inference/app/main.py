@@ -2,16 +2,16 @@ from fastapi import FastAPI
 from pydantic import BaseModel
 from typing import List
 from fastapi.middleware.cors import CORSMiddleware
-from transformers import AutoTokenizer, TFAutoModelForSequenceClassification, AutoConfig
+from transformers import AutoTokenizer, AutoModelForSequenceClassification, AutoConfig
 import numpy as np
 from scipy.special import softmax
 import utils
 
 app = FastAPI()
-MODEL = f"cardiffnlp/twitter-xlm-roberta-base-sentiment"
+MODEL = f"cardiffnlp/roberta-base-offensive"
 tokenizer = AutoTokenizer.from_pretrained(MODEL)
 config = AutoConfig.from_pretrained(MODEL)
-model = TFAutoModelForSequenceClassification.from_pretrained(MODEL)
+model = AutoModelForSequenceClassification.from_pretrained(MODEL)
 # model.save_pretrained(MODEL)
 # tokenizer.save_pretrained(MODEL)
 
@@ -39,15 +39,15 @@ async def predict(twitter_data: List[TwitterData]):
     text = [t.text for t in twitter_data]
     preds = []
     for t in text:
-        encoded_input = tokenizer(utils.preprocess(t), return_tensors="tf")
-        output = model(encoded_input)
-        scores = output[0][0].numpy()
+        encoded_input = tokenizer(utils.preprocess(t), return_tensors="pt")
+        output = model(**encoded_input)
+        scores = output[0][0].detach().numpy()
         scores = softmax(scores)
         pred = config.id2label[np.argmax(scores, axis=0)]
-        if pred.lower() == "negative":
+        if pred.lower() == "offensive":
             preds.append(1)
         else:
             preds.append(0)
-        # print(scores)
+        print(scores)
     output = [{"id": i, "sentiment": p} for i, p in zip(identifiers, preds)]
     return output
