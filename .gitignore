@@ -7,3 +7,4 @@ package-lock.json
 backend/.env
 .vscode
 chrome_extension.zip
+**/cardiffnlp/**

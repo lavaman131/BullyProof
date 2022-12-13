@@ -2,15 +2,18 @@ from fastapi import FastAPI
 from pydantic import BaseModel
 from typing import List
 from fastapi.middleware.cors import CORSMiddleware
-from transformers import AutoTokenizer, TFAutoModelForSequenceClassification
+from transformers import AutoTokenizer, TFAutoModelForSequenceClassification, AutoConfig
 import numpy as np
 from scipy.special import softmax
 import utils
 
 app = FastAPI()
-MODEL = f"cardiffnlp/twitter-roberta-base-sentiment-latest"
+MODEL = f"cardiffnlp/twitter-xlm-roberta-base-sentiment"
 tokenizer = AutoTokenizer.from_pretrained(MODEL)
+config = AutoConfig.from_pretrained(MODEL)
 model = TFAutoModelForSequenceClassification.from_pretrained(MODEL)
+# model.save_pretrained(MODEL)
+# tokenizer.save_pretrained(MODEL)
 
 origins = [
     "*",
@@ -40,10 +43,11 @@ async def predict(twitter_data: List[TwitterData]):
         output = model(encoded_input)
         scores = output[0][0].numpy()
         scores = softmax(scores)
-        # label mapping = ["negative", "neutral", "positive"]
-        if np.argmax(scores, axis=0) == 0:
+        pred = config.id2label[np.argmax(scores, axis=0)]
+        if pred.lower() == "negative":
             preds.append(1)
         else:
             preds.append(0)
+        # print(scores)
     output = [{"id": i, "sentiment": p} for i, p in zip(identifiers, preds)]
     return output
