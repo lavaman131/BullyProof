@@ -113,7 +113,6 @@ class TweetManager {
 }
 let handlingTweetEles = new Set();
 watchBodyChange(() => {
-    // console.log("change");
     for (let ele of document.querySelectorAll(Selectors.tweet)) {
         if (handlingTweetEles.has(ele)) continue;
         handlingTweetEles.add(ele);
@@ -148,5 +147,5 @@ function html(n, ...args) {
         re.push(n[i]);
         args[i] && re.push(args[i]);
     }
-    return re.join("");
+    return re.join(" ");
 }
