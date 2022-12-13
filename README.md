@@ -3,7 +3,7 @@
 A chrome extension that allows users to filter out hate speech on social media.
 
 # Installation Instructions 🚀
-1. [Download the extension](https://drive.google.com/uc?export=download&id=1Qp8g1F0dR6HF8VR4i3oXID4gwD6NXbup)
+1. [Download the extension](https://drive.google.com/uc?export=download&id=1i4mABpO5c6TGZF17FDouAGc5ptxkcrIe)
    
    <img src="images/warning.png" style="width:100em"></img>
 
@@ -14,7 +14,7 @@ A chrome extension that allows users to filter out hate speech on social media.
 ```
 chrome://extensions/
 ```
-4. Click on `Load unpacked` on the top left-hand corner.
+1. Click on `Load unpacked` on the top left-hand corner.
    
 <img src="images/extension_page.png" style="width:100em"></img>
 
