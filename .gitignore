@@ -6,3 +6,4 @@ package-lock.json
 **/__pycache__/**
 backend/.env
 .vscode
+chrome_extension.zip
